@@ -1,0 +1,4 @@
+# From https://yourbasic.org/algorithms/your-basic-api/#1-tell-me-what-this-thing-is
+language: java
+jdk:
+  - oraclejdk8
