@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +27,11 @@ public class ContinuousIntegrationServer extends AbstractHandler
         response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
 
-        System.out.println(target);
+        // see https://stackoverflow.com/questions/8100634/get-the-post-request-body-from-httpservletrequest
+        String reqString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+
+        Payload payload = Payload.parse(reqString);
+        System.out.println(new Gson().toJson(payload));
 
         // here you do all the continuous integration tasks
         // for example
