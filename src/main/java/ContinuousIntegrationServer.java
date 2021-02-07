@@ -1,4 +1,7 @@
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
@@ -32,6 +35,16 @@ public class ContinuousIntegrationServer extends AbstractHandler
 
         Payload payload = Payload.parse(reqString);
         System.out.println(new Gson().toJson(payload));
+
+        File dir = Files.createTempDirectory("temp").toFile();
+        try {
+            File repo = new RepoSnapshot(payload).cloneFiles(dir);
+            System.out.printf("Repo cloned to %s\n", repo);
+            System.out.println("Files in it: ");
+            System.out.println(Arrays.toString(repo.listFiles()));
+        } catch (Exception e) {
+            System.out.println("Failed to clone repo");
+        }
 
         // here you do all the continuous integration tasks
         // for example
