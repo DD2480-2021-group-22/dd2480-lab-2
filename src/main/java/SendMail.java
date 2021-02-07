@@ -1,6 +1,5 @@
 
 import com.google.gson.JsonParseException;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.time.ZonedDateTime;
