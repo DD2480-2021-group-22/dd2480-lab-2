@@ -60,39 +60,5 @@ public class RepoSnapshot {
         checkout.call();
 
         return repoDir;
-
-         /* ProcessBuilder pb = new ProcessBuilder();
-        // Make sure we can read the output on stdout/stderr
-        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-        pb.redirectErrorStream(true);
-
-        String dirName = String.format("%s-%s", name, commitHash);
-        File repoDir = new File(targetDirectory, dirName);
-        String repoPath = repoDir.getAbsolutePath();
-
-        // Clone the repo
-        Process process = pb.command(
-                "git", "clone",
-                this.url,
-                repoPath
-        ).start();
-        if (process.waitFor() != 0) {
-            throw new FileSystemException("failed to clone repository");
-        }
-
-        // Check out on correct commit
-        process = pb.command(
-                "git",
-                // The -C option specifies directory, command is executed as if run inside it
-                // see https://git-scm.com/docs/git
-                "-C", repoPath,
-                "-c", "advice.detachedHead=false", // disable warning about detached head
-                "checkout", this.commitHash
-        ).start();
-        if (process.waitFor() != 0) {
-            throw new FileSystemException("failed to checkout repository");
-        }
-
-        return repoDir; */
     }
 }
