@@ -10,7 +10,6 @@ public class GradleHandlerTest {
      * that results in a successful build.
      *
      * The made assertions are:
-     *  - The report type is Report.Type.BUILD
      *  - The isSuccess() method returns true
      */
     @Test
@@ -36,7 +35,6 @@ public class GradleHandlerTest {
      * that results in a failed build.
      *
      * The made assertions are:
-     *   - The report type is Report.Type.BUILD
      *   - The isSuccess() method returns false
      */
     @Test
@@ -56,11 +54,10 @@ public class GradleHandlerTest {
     }
 
     /**
-     * This test has the purpose of running the gradle test task of a project
-     * where test should be passing.
+     * This test has the purpose of running the gradle build task of a project
+     * where tests should be passing.
      *
      * The made assertions are:
-     *  - The report type is Report.Type.TEST
      *  - The isSuccess() method returns true
      */
     @Test
@@ -82,11 +79,10 @@ public class GradleHandlerTest {
     }
 
     /**
-     * This test has the purpose of running the gradle test task of a project
-     * where test should be failing.
+     * This test has the purpose of running the gradle build task of a project
+     * where tests should be failing.
      *
      * The made assertions are:
-     *  - The report type is Report.Type.TEST
      *  - The isSuccess() method returns false
      */
     @Test

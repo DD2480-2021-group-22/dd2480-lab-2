@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 /**
  * Report class
  *
- * This class contains information about a certain Gradle task execution.
+ * This class contains information about a certain Gradle build execution.
  */
 public class Report {
 
@@ -16,10 +16,10 @@ public class Report {
     /**
      * Creates a Report object
      *
-     * @param success Whether the task succeeded or not
-     * @param logs The build or test logs
-     * @param date The build or test date
-     * @param runtime The runtime of the build or test
+     * @param success Whether the build succeeded or not
+     * @param logs The build logs
+     * @param date The build date
+     * @param runtime The runtime of the build
      */
     public Report(boolean success, String logs, ZonedDateTime date, Duration runtime) {
         this.success = success;
@@ -30,7 +30,7 @@ public class Report {
 
     /**
      *
-     * @return Boolean representing the gradle execution status
+     * @return Boolean representing the build status
      */
     public boolean isSuccess() {
         return success;
@@ -38,7 +38,7 @@ public class Report {
 
     /**
      *
-     * @return Logs asssociated with the gradle execution
+     * @return Logs associated with the build
      */
     public String getLogs() {
         return logs;
@@ -46,7 +46,7 @@ public class Report {
 
     /**
      *
-     * @return The gradle execution date
+     * @return The build date
      */
     public ZonedDateTime getDate() {
         return date;
@@ -54,7 +54,7 @@ public class Report {
 
     /**
      *
-     * @return The execution time of the gradle execution
+     * @return The execution time of the build
      */
     public Duration getRuntime() {
         return runtime;

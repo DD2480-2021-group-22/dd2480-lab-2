@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 /**
  * GradleHandler class
  *
- * This class handles execution of Gradle tasks.
+ * This class handles execution of Gradle builds.
  */
 public class GradleHandler {
 
