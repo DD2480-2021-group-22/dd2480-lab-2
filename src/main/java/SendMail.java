@@ -164,5 +164,4 @@ public class SendMail {
         String html = httmlbuilder.toString();
         return html;
     }
-
 }
