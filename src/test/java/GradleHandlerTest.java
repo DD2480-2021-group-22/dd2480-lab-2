@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GradleHandlerTest {
     /**
-     * This test has the purpose to build a gradle project
+     * This test has the purpose of building a gradle project
      * that results in a successful build.
      *
      * The made assertions are:
@@ -17,14 +17,40 @@ public class GradleHandlerTest {
     public void testGradleProjectBuildSuccess() {
         // Arrange
         try {
+            String projectPath = "GradleTestProjects/CompilableProject";
             // https://stackoverflow.com/questions/28673651/how-to-get-the-path-of-src-test-resources-directory-in-junit
-            File projectDirectory = new File(getClass().getClassLoader().getResource("GradleTestProjects/CompilableProject").getFile());
+            File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
 
             // Act
             Report report = GradleHandler.build(projectDirectory);
 
             // Assert
             assertTrue(report.isSuccess());
+            assertEquals(Report.Type.BUILD, report.getType());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * This test has the purpose of building a gradle project
+     * that results in a failed build.
+     *
+     * The made assertions are:
+     *   - The report type is Report.Type.BUILD
+     *   - The isSuccess() method returns false
+     */
+    @Test
+    public void testGradleProjectBuildFail() {
+        // Arrange
+        String projectPath = "GradleTestProjects/NotCompilableProject";
+        try {
+            File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
+            // Act
+            Report report = GradleHandler.build(projectDirectory);
+
+            // Assert
+            assertFalse(report.isSuccess());
             assertEquals(Report.Type.BUILD, report.getType());
         } catch (Exception e) {
             fail();
@@ -78,30 +104,6 @@ public class GradleHandlerTest {
             // Assert
             assertFalse(report.isSuccess());
             assertEquals(Report.Type.TEST, report.getType());
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    /**
-     * This test has the purpose to build a gradle project
-     * that results in a failed build.
-     *
-     * The made assertions are:
-     *   - The report type is Report.Type.BUILD
-     *   - The isSuccess() method returns false
-     */
-    @Test
-    public void testGradleProjectBuildFail() {
-        // Arrange
-        try {
-            File projectDirectory = new File(getClass().getClassLoader().getResource("GradleTestProjects/NotCompilableProject").getFile());
-            // Act
-            Report report = GradleHandler.build(projectDirectory);
-
-            // Assert
-            assertFalse(report.isSuccess());
-            assertEquals(Report.Type.BUILD, report.getType());
         } catch (Exception e) {
             fail();
         }
