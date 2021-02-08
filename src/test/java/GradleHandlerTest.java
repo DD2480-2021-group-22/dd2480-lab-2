@@ -26,7 +26,6 @@ public class GradleHandlerTest {
 
             // Assert
             assertTrue(report.isSuccess());
-            assertEquals(Report.Type.BUILD, report.getType());
         } catch (Exception e) {
             fail();
         }
@@ -51,7 +50,6 @@ public class GradleHandlerTest {
 
             // Assert
             assertFalse(report.isSuccess());
-            assertEquals(Report.Type.BUILD, report.getType());
         } catch (Exception e) {
             fail();
         }
@@ -74,11 +72,10 @@ public class GradleHandlerTest {
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
 
             // Act
-            Report report = GradleHandler.test(projectDirectory);
+            Report report = GradleHandler.build(projectDirectory);
 
             // Assert
             assertTrue(report.isSuccess());
-            assertEquals(Report.Type.TEST, report.getType());
         } catch (Exception e) {
             fail();
         }
@@ -99,11 +96,10 @@ public class GradleHandlerTest {
         try {
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
             // Act
-            Report report = GradleHandler.test(projectDirectory);
+            Report report = GradleHandler.build(projectDirectory);
 
             // Assert
             assertFalse(report.isSuccess());
-            assertEquals(Report.Type.TEST, report.getType());
         } catch (Exception e) {
             fail();
         }

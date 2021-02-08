@@ -8,14 +8,6 @@ import java.time.ZonedDateTime;
  */
 public class Report {
 
-    /**
-     * Representing the Gradle task type
-     */
-    public enum Type {
-        TEST, BUILD
-    }
-
-    final private Type type;
     final private boolean success;
     final private String logs;
     final private ZonedDateTime date;
@@ -24,14 +16,12 @@ public class Report {
     /**
      * Creates a Report object
      *
-     * @param type The type of report
      * @param success Whether the task succeeded or not
      * @param logs The build or test logs
      * @param date The build or test date
      * @param runtime The runtime of the build or test
      */
-    public Report(Type type, boolean success, String logs, ZonedDateTime date, Duration runtime) {
-        this.type = type;
+    public Report(boolean success, String logs, ZonedDateTime date, Duration runtime) {
         this.success = success;
         this.logs = logs;
         this.date = date;
@@ -48,7 +38,7 @@ public class Report {
 
     /**
      *
-     * @return Logs sssociated with the gradle execution
+     * @return Logs asssociated with the gradle execution
      */
     public String getLogs() {
         return logs;
@@ -60,13 +50,6 @@ public class Report {
      */
     public ZonedDateTime getDate() {
         return date;
-    }
-
-    /**
-     * @return The type of the gradle task
-     */
-    public Type getType() {
-        return type;
     }
 
     /**

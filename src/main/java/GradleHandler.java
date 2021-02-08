@@ -15,7 +15,15 @@ import java.time.ZonedDateTime;
  */
 public class GradleHandler {
 
-    private static Report executeTask(File dir, String task, Report.Type type) {
+    /**
+     * The build method takes a target directory containing a Gradle project
+     * and tries to execute the build task.
+     *
+     * @param dir File object representing the target directory
+     * @return a Report object containing information about the build
+     */
+    public static Report build(File dir) {
+
         // https://docs.gradle.org/current/javadoc/org/gradle/tooling/GradleConnector.html
         ProjectConnection connection = GradleConnector.newConnector()
                 .forProjectDirectory(dir)
@@ -27,7 +35,7 @@ public class GradleHandler {
         Duration runtime;
         Instant start = Instant.now();
         try {
-            connection.newBuild().setStandardOutput(outputStream).forTasks(task).run();
+            connection.newBuild().setStandardOutput(outputStream).forTasks("build").run();
             runtime = Duration.between(start, Instant.now());
         } catch(BuildException e) {
             runtime = Duration.between(start, Instant.now());
@@ -36,28 +44,6 @@ public class GradleHandler {
             connection.close();
         }
 
-        return new Report(type, success, outputStream.toString(), date, runtime);
-    }
-
-    /**
-     * The build method takes a target directory containing a Gradle project
-     * and tries to execute the build task.
-     *
-     * @param dir File object representing the target directory
-     * @return a Report object containing information about the build
-     */
-    public static Report build(File dir) {
-        return executeTask(dir, "build", Report.Type.BUILD);
-    }
-
-    /**
-     * The test method takes a target directory containing a Gradle project
-     * and tries to execute the test task.
-     *
-     * @param dir File object representing the target directory
-     * @return a Report object containing information about the test
-     */
-    public static Report test(File dir) {
-        return executeTask(dir, "test", Report.Type.TEST);
+        return new Report(success, outputStream.toString(), date, runtime);
     }
 }
