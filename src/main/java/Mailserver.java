@@ -7,12 +7,20 @@ public class Mailserver {
     String sendermail;
 
     public Mailserver() {
-        host = "smtp.mailtrap.io";
-        port = 2525;
+        this.host = host;
+        this.port = port;
         debug= true;
-        username= "6189bbfe46e3f3";
-        password= "7fcb468baea694";
-        sendermail= "binxin@kth.se";
+        this.username = username;
+        this.password = password;
+        this.sendermail = sendermail;
+    }
+
+    public void useGmailSMTP(){
+        this.setNewMailServer("smtp.gmail.com", 465, "dd2480.lab2.group22@gmail.com", "Group_22","dd2480.lab2.group22@gmail.com" );
+    }
+
+    public void useMailTrap(){
+        this.setNewMailServer( "smtp.mailtrap.io", 2525, "6189bbfe46e3f3", "7fcb468baea694","CI-Server@kth.se" );
     }
 
     public void setNewMailServer(String host, int port, String username, String password, String senderEmail){
