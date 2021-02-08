@@ -38,7 +38,8 @@ public class SendMailTest {
         Mailserver mailserver = new Mailserver();
         Payload payload = new Payload();
         SendMail sendmail = new SendMail();
-        MimeMessage message = sendmail.SendMail(payload,mailserver, "dd2480.lab2.group22@gmail.com", "HELLO MAILBOX!" );
+        String sendto = "dd2480.lab2.group22@gmail.com";
+        MimeMessage message = sendmail.SendMail(payload,mailserver, sendto, "HELLO MAILBOX!" );
         assertEquals("dd2480.lab2.group22@gmail.com",message.getHeader("To",null));
         assertEquals(mailserver.getSendermail() ,message.getHeader("From", null));
         assertEquals("Notification: " + payload.getCommitHash(),message.getHeader("Subject",null));
