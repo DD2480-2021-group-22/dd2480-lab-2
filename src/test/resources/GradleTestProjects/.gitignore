@@ -1,0 +1,7 @@
+
+# Ingore IDEA configs
+*/.idea/
+
+*/build/
+*/.gradle/
+
