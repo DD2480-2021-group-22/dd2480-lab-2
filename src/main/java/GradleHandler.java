@@ -50,4 +50,14 @@ public class GradleHandler {
         return executeTask(dir, "build", Report.Type.BUILD);
     }
 
+    /**
+     * The test method takes a target directory containing a Gradle project
+     * and tries to execute the test task.
+     *
+     * @param dir File object representing the target directory
+     * @return a Report object containing information about the test
+     */
+    public static Report test(File dir) {
+        return executeTask(dir, "test", Report.Type.TEST);
+    }
 }
