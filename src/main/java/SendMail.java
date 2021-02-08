@@ -112,4 +112,4 @@ public class SendMail {
 
         return html;
     }
--}
+}
