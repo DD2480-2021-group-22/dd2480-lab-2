@@ -41,12 +41,11 @@ public class MysqlDatabase {
         Connection connection = connectToDB();
         if(connection!=null){
             //Use prepared statements for security purposes
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO commit VALUES(?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO commit VALUES(?,?,?,?)");
             preparedStatement.setString(1, commit.getCommitID());
             preparedStatement.setString(2, commit.getBuildDate());
-            preparedStatement.setBoolean(3, commit.isTestResult());
-            preparedStatement.setBoolean(4, commit.isBuildResult());
-            preparedStatement.setString(5, commit.getBuildLogs());
+            preparedStatement.setBoolean(3, commit.isBuildResult());
+            preparedStatement.setString(4, commit.getBuildLogs());
 
             int result = preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -76,9 +75,8 @@ public class MysqlDatabase {
                 CommitStructure currentCommit = new CommitStructure();
                 currentCommit.setCommitID(result.getString(1));
                 currentCommit.setBuildDate(result.getString(2));
-                currentCommit.setTestResult(result.getBoolean(3));
-                currentCommit.setBuildResult(result.getBoolean(4));
-                currentCommit.setBuildLogs(result.getString(5));
+                currentCommit.setBuildResult(result.getBoolean(3));
+                currentCommit.setBuildLogs(result.getString(4));
                 commits.add(currentCommit);
             }
             result.close();

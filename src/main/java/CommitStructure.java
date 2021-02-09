@@ -29,14 +29,6 @@ public class CommitStructure {
         this.buildLogs = buildLogs;
     }
 
-    public boolean isTestResult() {
-        return testResult;
-    }
-
-    public void setTestResult(boolean testResult) {
-        this.testResult = testResult;
-    }
-
     public boolean isBuildResult() {
         return buildResult;
     }
@@ -48,7 +40,6 @@ public class CommitStructure {
     public void printAllValues(){
         System.out.println("Commit ID: " + this.getCommitID() +
                 "  Build Date: " + this.getBuildDate() +
-                "  Test Result: " + this.isTestResult() +
                 "  Build Result: " + this.isBuildResult() +
                 "  Build Logs: " + this.getBuildLogs());
     }

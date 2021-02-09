@@ -18,7 +18,6 @@ public class DatabaseTest {
         CommitStructure commit = new CommitStructure();
         commit.setCommitID("8dceabc1bb55a5d04f281d4c8c1f7441d80c5ddq");
         commit.setBuildDate("2021-02-05 21:22:04");
-        commit.setTestResult(false);
         commit.setBuildResult(true);
         commit.setBuildLogs("BUILD SUCCESSFUL in 2s");
         assertTrue(MysqlDatabase.insertCommitToDatabase(commit));
@@ -31,8 +30,6 @@ public class DatabaseTest {
     @Test
     public void testSelectingAllRowsWhenDatabaseIsNotEmpty() throws SQLException {
         List<CommitStructure> commits = MysqlDatabase.selectAllCommits();
-        for(int i = 0 ; i<commits.size() ; i++)
-            commits.get(i).printAllValues();
         assertTrue(!commits.isEmpty());
     }
 }
