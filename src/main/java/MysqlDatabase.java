@@ -56,8 +56,6 @@ public class MysqlDatabase {
 
             int result = preparedStatement.executeUpdate();
             preparedStatement.close();
-            assert connection != null;
-            connection.close();
             //Result > 0 => successfully inserted into database
             return (result>0);
         }
@@ -87,7 +85,6 @@ public class MysqlDatabase {
             }
             result.close();
             preparedStatement.close();
-            connection.close();
         }
         else{
             System.out.println("Connection is null!");
