@@ -1,42 +1,36 @@
 
-import com.google.gson.JsonParseException;
-import java.io.IOException;
-import java.time.Duration;
-import java.time.ZonedDateTime;
+import org.eclipse.jgit.internal.storage.file.PackLock;
+
 import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.lang.StringBuilder;
 
-import javax.mail.Address;
-
-
-
-
+/**
+ * Setup a Mimemessage and sends the message via the configured SMTP server in the object Mailserver.
+ * Message are generated using the contents in the objects Report and Payload.
+ * For documentation: see javax.mail
+ */
 public class SendMail {
-    /**
-     * Setup mail server SMTP connection and sends a mail using the context in Report and Mailserver objects.
-     * Takes in object of Report, and Mailserver
-     * See javax.mail for method documentation.
-     */
+
     public SendMail() {
 
     }
 
     /**
+     * Setup mail server SMTP connection and sends a mail using the context in Report and Mailserver objects.
+     * Takes in object of Report, and Mailserver
+     * See javax.mail for method documentation.
      *
      * @param report
      * @param mailserver
      * @param to
      * @param content
+     * @param payload
      * @return
      */
-    public MimeMessage SendMail( Report report, Mailserver mailserver, String to, String content ) {
+    public MimeMessage sendMail(Report report, Payload payload, Mailserver mailserver, String to, String content) {
         String messagebody;
         String subjectstring;
         // Set Properties
@@ -54,8 +48,8 @@ public class SendMail {
 
         // Create html string with content of payload and provided message.
 
-        messagebody = CreateMessage(report, content);
-        subjectstring = CreateSubject(report);
+        messagebody = CreateMessage(report, payload, content);
+        subjectstring = CreateSubject(payload);
 
         // Create the Session Object
         Session session = Session.getDefaultInstance(
@@ -98,26 +92,33 @@ public class SendMail {
     }
 
     /**
+     * Generates the subject-header.
      *
-     * @param report
+     * @param payload
      * @return
      */
-    private String CreateSubject(Report report){
-        String date = report.getDate().toString();
+    private String CreateSubject(Payload payload){
+        String commithash = payload.getCommitHash();
+        if (commithash == null) {
+            commithash = "Not Found.";
+        }
+
         StringBuilder subjectstring = new StringBuilder();
-        subjectstring.append("Notification for build date: "+ date);
+        subjectstring.append("Notification for buildhash: "+ commithash);
         String tempstring = subjectstring.toString();
 
         return tempstring;
     }
 
     /**
+     * Parse and generate a message string depending on the contents of objects Report and Payload.
      *
      * @param report
+     * @param payload
      * @param message
      * @return
      */
-    private String CreateMessage(Report report, String message){
+    private String CreateMessage(Report report, Payload payload, String message){
         String date = null;
         String logs = null;
         String runtime = null;
@@ -142,26 +143,26 @@ public class SendMail {
             e.printStackTrace();
         }
         
-        StringBuilder httmlbuilder = new StringBuilder();
-        httmlbuilder.append("<h3>Notiication for <span style=\"background-color: #914c53; color: #ffffff; padding: 0 3px;\">DD2480-lab-2</span></h3>");
+        StringBuilder htmlbuilder = new StringBuilder();
+        htmlbuilder.append("<h3>Notification for <span style=\"background-color: #914c53; color: #ffffff; padding: 0 3px;\">DD2480-lab-2</span></h3>");
 
         try {
             if (report.isSuccess() == true) {
-                httmlbuilder.append("<p>BUILD: SUCCESS!</P>");
+                htmlbuilder.append("<p>BUILD: SUCCESS!</P>");
             }
             else if (report.isSuccess() == false) {
-                httmlbuilder.append("<p>BUILD: FAILED!</P>");
+                htmlbuilder.append("<p>BUILD: FAILED!</P>");
             }
         } catch (NullPointerException e) {
-                httmlbuilder.append("<p>BUILD: ERROR, SOMETHING WENT WRONG!</P>");
+                htmlbuilder.append("<p>BUILD: ERROR, SOMETHING WENT WRONG!</P>");
             e.printStackTrace();
         }
-        httmlbuilder.append("<p>Message: " + message +"</P>");
-        httmlbuilder.append("<p>Runtime: " + runtime +"</P>");
-        httmlbuilder.append("<p>Date: " + date + "</P>");
-        httmlbuilder.append("<p>Logs: " + logs + "</P>");
+        htmlbuilder.append("<p>Message: " + message +"</P>");
+        htmlbuilder.append("<p>Runtime: " + runtime +"</P>");
+        htmlbuilder.append("<p>Date: " + date + "</P>");
+        htmlbuilder.append("<p>Logs: " + logs + "</P>");
 
-        String html = httmlbuilder.toString();
+        String html = htmlbuilder.toString();
         return html;
     }
 }

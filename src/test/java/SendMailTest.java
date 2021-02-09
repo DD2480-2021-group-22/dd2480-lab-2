@@ -1,4 +1,5 @@
 import org.hamcrest.core.StringContains;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -7,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.time.Duration;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SendMailTest {
 
@@ -18,8 +20,12 @@ public class SendMailTest {
      * The test sets assigns a preset value for the variables success, logs, date, runtime and receiver to shared group mail at: dd2480.lab2.group22@gmail.com.
      * @throws MessagingException
      */
+    @BeforeEach
+    public void setUp() {
+
+    }
     @Test
-    public void payloadIsParsedCorrectly() throws MessagingException {
+    public void headerTestMimeMessage() throws MessagingException, IOException {
         // Arrange
         Mailserver mailserver = new Mailserver();
         Boolean success = false;
@@ -27,25 +33,49 @@ public class SendMailTest {
         ZonedDateTime date = ZonedDateTime.now();
         Duration runtime = Duration.ofSeconds(10);
         String sendto = "dd2480.lab2.group22@gmail.com";
-
-        // Act
         Report report = new Report(success, logs, date, runtime);
         SendMail sendmail = new SendMail();
-        MimeMessage message = sendmail.SendMail(report,mailserver, sendto, "HELLO MAILBOX!" );
+        Payload payload = new Payload();
+
+        // Act
+
+        MimeMessage message = sendmail.sendMail(report, payload, mailserver, sendto, "HELLO MAILBOX!");
 
         // Assert
         assertEquals("dd2480.lab2.group22@gmail.com",message.getHeader("To",null));
         assertEquals(mailserver.getSendermail() ,message.getHeader("From", null));
         assertEquals("text/html; charset=UTF-8" ,message.getHeader("Content-Type", null));
-        assertThat(message.getHeader("Subject",null), StringContains.containsString(report.getDate().toString()));
-        try { assertThat(message.getContent().toString(), StringContains.containsString("HELLO MAILBOX!"));
-        } catch (IOException e) { e.printStackTrace(); }
-        try { assertThat(message.getContent().toString(), StringContains.containsString("Runtime: "+ report.getRuntime()));
-        } catch (IOException e) { e.printStackTrace(); }
-        try { assertThat(message.getContent().toString(), StringContains.containsString("Date: "+report.getDate()));
-        } catch (IOException e) { e.printStackTrace(); }
-        try { assertThat(message.getContent().toString(), StringContains.containsString("Logs: "+report.getLogs()));
-        } catch (IOException e) { e.printStackTrace(); }
-
+        assertThat(message.getHeader("Subject",null), StringContains.containsString("Notification for buildhash: Not Found."));
+        assertThat(message.getContent().toString(), StringContains.containsString("HELLO MAILBOX!"));
+        assertThat(message.getContent().toString(), StringContains.containsString("Runtime: "+ report.getRuntime()));
+        assertThat(message.getContent().toString(), StringContains.containsString("Date: "+report.getDate()));
+        assertThat(message.getContent().toString(), StringContains.containsString("Logs: "+report.getLogs()));
     }
+
+    /**
+     * Tests that the SendMail.java throws a runtime exception in case of an invalid format for receipiants mailaddress.
+     * aaa is not a valid format for destination address, should throw a RuntimeException
+     * @throws MessagingException
+     * @throws IOException
+     */
+    @Test
+    public void exceptionTestInvalidSendToFormat() throws MessagingException, IOException {
+        // Arrange
+        Mailserver mailserver = new Mailserver();
+        Boolean success = false;
+        String logs = "logs";
+        ZonedDateTime date = ZonedDateTime.now();
+        Duration runtime = Duration.ofSeconds(10);
+        String sendto = "aaa";
+        Report report = new Report(success, logs, date, runtime);
+        SendMail sendmail = new SendMail();
+        Payload payload = new Payload();
+
+        // Act
+        // Assert
+        Throwable t = assertThrows(RuntimeException.class, () -> {
+            MimeMessage message = sendmail.sendMail(report, payload, mailserver, sendto, "HELLO MAILBOX!");
+        });
+    }
+
 }

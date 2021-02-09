@@ -1,3 +1,6 @@
+/**
+ * Mailserver object that contains all information about the SMTP server used for outgoing mail.
+ */
 public class Mailserver {
     String host;
     int port;
@@ -31,6 +34,7 @@ public class Mailserver {
     }
 
     /**
+     * Takes in variables that are needed for a SMTP server and set that information to the new current SMTP server.
      *
      * @param host
      * @param port
@@ -50,6 +54,7 @@ public class Mailserver {
     }
 
     /**
+     * Here begins setters and getters.
      *
      * @return
      */

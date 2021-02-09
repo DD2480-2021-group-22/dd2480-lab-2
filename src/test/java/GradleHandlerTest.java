@@ -22,11 +22,12 @@ public class GradleHandlerTest {
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
             Mailserver mailserver = new Mailserver();
             SendMail sendmail = new SendMail();
+            Payload payload = new Payload();
+            mailserver.useGmailSMTP();
             // Act
             Report report = GradleHandler.build(projectDirectory);
+            MimeMessage message = sendmail.sendMail(report, payload, mailserver, mailserver.getSendermail(), "Test");
             //CHANGE THE TO- ADDRESS WHEN PAYLOAD HAVE CORRECT STRUCTURE;
-            MimeMessage message = sendmail.SendMail(report, mailserver, "dd2480.lab2.group22@gmail.com,","HELLO MAILBOX!");
-
 
             // Assert
             assertTrue(report.isSuccess());
@@ -50,9 +51,6 @@ public class GradleHandlerTest {
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
             // Act
             Report report = GradleHandler.build(projectDirectory);
-            Mailserver mailserver = new Mailserver();
-            SendMail sendmail = new SendMail();
-            MimeMessage message = sendmail.SendMail(report, mailserver, "dd2480.lab2.group22@gmail.com,","HELLO MAILBOX!");
 
             // Assert
             assertFalse(report.isSuccess());
@@ -78,9 +76,6 @@ public class GradleHandlerTest {
 
             // Act
             Report report = GradleHandler.build(projectDirectory);
-            Mailserver mailserver = new Mailserver();
-            SendMail sendmail = new SendMail();
-            MimeMessage message = sendmail.SendMail(report, mailserver, "dd2480.lab2.group22@gmail.com,","HELLO MAILBOX!");
 
             // Assert
             assertTrue(report.isSuccess());
@@ -105,9 +100,6 @@ public class GradleHandlerTest {
 
             // Act
             Report report = GradleHandler.build(projectDirectory);
-            Mailserver mailserver = new Mailserver();
-            SendMail sendmail = new SendMail();
-            MimeMessage message = sendmail.SendMail(report, mailserver, "dd2480.lab2.group22@gmail.com,","HELLO MAILBOX!");
 
             // Assert
             assertFalse(report.isSuccess());

@@ -32,12 +32,7 @@ public class Payload {
      * @return the commit hash corresponding to the push.
      */
     public String getCommitHash() {
-        try {
             return after;
-        } catch (NullPointerException e) {
-            String tempstring = "Not Found";
-            return tempstring;
-        }
     }
 
     /**
@@ -45,13 +40,7 @@ public class Payload {
      * @return the url of the repo where the push was made.
      */
     public String getUrl() {
-
-        try {
             return repository.url;
-        } catch (NullPointerException e) {
-            String tempstring = "Not Found";
-            return tempstring;
-        }
     }
 
     /**
@@ -59,12 +48,6 @@ public class Payload {
      * @return the name of the repository where the push was made.
      */
     public String getName() {
-
-        try {
             return repository.name;
-        } catch (NullPointerException e) {
-            String tempstring = "Not Found";
-            return tempstring;
-        }
     }
 }
