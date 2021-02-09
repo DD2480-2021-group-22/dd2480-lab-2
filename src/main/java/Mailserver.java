@@ -6,6 +6,7 @@ public class Mailserver {
     String password;
     String sendermail;
 
+
     public Mailserver() {
         this.host = host;
         this.port = port;
