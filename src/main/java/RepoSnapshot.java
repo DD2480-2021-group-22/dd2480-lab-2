@@ -54,10 +54,14 @@ public class RepoSnapshot {
         clone.setURI(url);
         Git git = clone.call();
 
-        CheckoutCommand checkout = git.checkout();
-        checkout.setName(commitHash);
-        checkout.setCreateBranch(false);
-        checkout.call();
+        try {
+            CheckoutCommand checkout = git.checkout();
+            checkout.setName(commitHash);
+            checkout.setCreateBranch(false);
+            checkout.call();
+        } finally {
+            git.close();
+        }
 
         return repoDir;
     }
