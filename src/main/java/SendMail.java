@@ -125,19 +125,19 @@ public class SendMail {
 
 
         try {
-            date = report.getDate().toString();
+            date = report.getFormatedDate();
         } catch (NullPointerException e) {
             date = "Not Found!";
             e.printStackTrace();
         }
         try {
-            logs = report.getLogs();
+            logs = report.getFormatedLogs();
         } catch (NullPointerException e) {
             logs = "Not Found!";
             e.printStackTrace();
         }
         try {
-            runtime = report.getRuntime().toString();
+            runtime = report.getFormatedRuntime();
         } catch (NullPointerException e) {
             runtime = "Not Found!";
             e.printStackTrace();
