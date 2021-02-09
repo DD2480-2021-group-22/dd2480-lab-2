@@ -27,7 +27,7 @@ public class MysqlDatabase {
         }
         return null;
     }
-    public static void insertCommitToDatabase(CommitStructure commit) throws SQLException {
+    public static boolean insertCommitToDatabase(CommitStructure commit) throws SQLException {
         Connection connection = connectToDB();
         if(connection!=null){
             //Use prepared statements for security purposes
@@ -38,14 +38,17 @@ public class MysqlDatabase {
             preparedStatement.setBoolean(4, commit.isBuildResult());
             preparedStatement.setString(5, commit.getBuildLogs());
 
-            preparedStatement.executeUpdate();
+            int result = preparedStatement.executeUpdate();
             preparedStatement.close();
             assert connection != null;
             connection.close();
+            //Result > 0 => successfully inserted into database
+            return (result>0);
         }
         else{
             System.out.println("Connection is null!");
         }
+        return false;
     }
 
     public static List<CommitStructure> selectAllCommits() throws SQLException {

@@ -11,12 +11,12 @@ public class DatabaseTest {
     @Test
     public void testInsertingValidValues() throws SQLException {
         CommitStructure commit = new CommitStructure();
-        commit.setCommitID("8dceabc1bb55a5d04f281d4c8c1f7441d80c5ddc");
+        commit.setCommitID("8dceabc1bb55a5d04f281d4c8c1f7441d80c5ddq");
         commit.setBuildDate("2021-02-05 21:22:04");
         commit.setTestResult(false);
         commit.setBuildResult(true);
         commit.setBuildLogs("BUILD SUCCESSFUL in 2s");
-        MysqlDatabase.insertCommitToDatabase(commit);
+        assertTrue(MysqlDatabase.insertCommitToDatabase(commit));
     }
 
     @Test
