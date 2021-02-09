@@ -2,11 +2,12 @@
 
 ##Grading Criteria
 
-**P3 Notifications:** Notifications are implemented using a mocked SMTP server via  [mailtrap](https://mailtrap.io/).
-.The CI server sends an email from the mocked SMTP server to a project member. The mail is then caught
-in the mocked SMTP server to prevent spam. The implementaion of mail utilizes javax.mail library to send
-an email. The server information is stored and could be set in Mailserver.java and is passed in as argument for SendMail.java
-together with Payload information. The SendMail class then formats the information and sends a notification to
-the specified mail-address.
-<br>*Testing*:</br> Testing will probably be done by fetching the sent mail and extracting the information after
-a certain time delay to ensure that the mail has arrived in the mailbox.
+**P3 Notifications:**  The implementaion of mail utilizes javax.mail library to send email to the commit issuer.
+The server information is stored and could also be set in Mailserver.java and is passed in as argument for SendMail.java
+together with report information. The SendMail class then formats the information and sends a notification to
+the specified mail-address, notifying the user about build status, build date, build duration and build logs.
+
+***Testing:*** Lower-level testing is done through a local unit test with fixed variable, sending a notification
+to the senders own mailaddress. The generated MimeMessage is then checked that all correct fields corresponds to the objects Mailserver.java and Report.java.
+Top-level testing is done through a integration test, where the notification of the builds are sent to the commit issuer.
+ 
