@@ -2,6 +2,8 @@
 import com.google.gson.JsonParseException;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -14,20 +16,28 @@ import java.lang.StringBuilder;
 
 import javax.mail.Address;
 
-/**
- * Setup mail server
- * Takes in object of Payload, and user
- * Sends mail to user
- * See javax.mail for method documentation.
- */
+
 
 
 public class SendMail {
-
+    /**
+     * Setup mail server SMTP connection and sends a mail using the context in Report and Mailserver objects.
+     * Takes in object of Report, and Mailserver
+     * See javax.mail for method documentation.
+     */
     public SendMail() {
 
     }
-    public MimeMessage SendMail( Payload payload, Mailserver mailserver, String to, String content ) {
+
+    /**
+     *
+     * @param report
+     * @param mailserver
+     * @param to
+     * @param content
+     * @return
+     */
+    public MimeMessage SendMail( Report report, Mailserver mailserver, String to, String content ) {
         String messagebody;
         String subjectstring;
         // Set Properties
@@ -45,8 +55,8 @@ public class SendMail {
 
         // Create html string with content of payload and provided message.
 
-        messagebody = CreateMessage(payload, content);
-        subjectstring = CreateSubject(payload);
+        messagebody = CreateMessage(report, content);
+        subjectstring = CreateSubject(report);
 
         // Create the Session Object
         Session session = Session.getDefaultInstance(
@@ -87,29 +97,73 @@ public class SendMail {
             throw new RuntimeException( exc );
         }
     }
-    private String CreateSubject(Payload payload){
-        String name = payload.getName();
-        String url = payload.getUrl();
-        String commithash = payload.getCommitHash();
+
+    /**
+     *
+     * @param report
+     * @return
+     */
+    private String CreateSubject(Report report){
+        String date = report.getDate().toString();
         StringBuilder subjectstring = new StringBuilder();
-        subjectstring.append("Notification: "+ commithash);
+        subjectstring.append("Notification for build date: "+ date);
         String tempstring = subjectstring.toString();
 
         return tempstring;
     }
 
-    private String CreateMessage(Payload payload, String message){
-        String name = payload.getName();
-        String url = payload.getUrl();
-        String commithash = payload.getCommitHash();
+    /**
+     *
+     * @param report
+     * @param message
+     * @return
+     */
+    private String CreateMessage(Report report, String message){
+        String date = null;
+        String logs = null;
+        String runtime = null;
+
+
+        try {
+            date = report.getDate().toString();
+        } catch (NullPointerException e) {
+            date = "Not Found!";
+            e.printStackTrace();
+        }
+        try {
+            logs = report.getLogs();
+        } catch (NullPointerException e) {
+            logs = "Not Found!";
+            e.printStackTrace();
+        }
+        try {
+            runtime = report.getRuntime().toString();
+        } catch (NullPointerException e) {
+            runtime = "Not Found!";
+            e.printStackTrace();
+        }
+        
         StringBuilder httmlbuilder = new StringBuilder();
         httmlbuilder.append("<h3>Notiication for <span style=\"background-color: #914c53; color: #ffffff; padding: 0 3px;\">DD2480-lab-2</span></h3>");
-        httmlbuilder.append("<p>"+ message + "</p>");
-        httmlbuilder.append("<p>Name: "+ name + "</p>");
-        httmlbuilder.append("<p>URL: "+ url + "</p>");
-        httmlbuilder.append("<p>Commithash: "+ commithash + "</p>");
-        String html = httmlbuilder.toString();
 
+        try {
+            if (report.isSuccess() == true) {
+                httmlbuilder.append("<p>BUILD: SUCCESS!</P>");
+            }
+            else if (report.isSuccess() == false) {
+                httmlbuilder.append("<p>BUILD: FAILED!</P>");
+            }
+        } catch (NullPointerException e) {
+                httmlbuilder.append("<p>BUILD: ERROR, SOMETHING WENT WRONG!</P>");
+            e.printStackTrace();
+        }
+        httmlbuilder.append("<p>Message: " + message +"</P>");
+        httmlbuilder.append("<p>Runtime: " + runtime +"</P>");
+        httmlbuilder.append("<p>Date: " + date + "</P>");
+        httmlbuilder.append("<p>Logs: " + logs + "</P>");
+
+        String html = httmlbuilder.toString();
         return html;
     }
+
 }

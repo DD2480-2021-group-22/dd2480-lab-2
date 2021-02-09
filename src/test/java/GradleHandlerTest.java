@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,9 +20,13 @@ public class GradleHandlerTest {
             String projectPath = "GradleTestProjects/CompilableProject";
             // https://stackoverflow.com/questions/28673651/how-to-get-the-path-of-src-test-resources-directory-in-junit
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
-
+            Mailserver mailserver = new Mailserver();
+            SendMail sendmail = new SendMail();
             // Act
             Report report = GradleHandler.build(projectDirectory);
+            //CHANGE THE TO- ADDRESS WHEN PAYLOAD HAVE CORRECT STRUCTURE;
+            MimeMessage message = sendmail.SendMail(report, mailserver, "dd2480.lab2.group22@gmail.com,","HELLO MAILBOX!");
+
 
             // Assert
             assertTrue(report.isSuccess());
@@ -45,6 +50,9 @@ public class GradleHandlerTest {
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
             // Act
             Report report = GradleHandler.build(projectDirectory);
+            Mailserver mailserver = new Mailserver();
+            SendMail sendmail = new SendMail();
+            MimeMessage message = sendmail.SendMail(report, mailserver, "dd2480.lab2.group22@gmail.com,","HELLO MAILBOX!");
 
             // Assert
             assertFalse(report.isSuccess());
@@ -70,6 +78,9 @@ public class GradleHandlerTest {
 
             // Act
             Report report = GradleHandler.build(projectDirectory);
+            Mailserver mailserver = new Mailserver();
+            SendMail sendmail = new SendMail();
+            MimeMessage message = sendmail.SendMail(report, mailserver, "dd2480.lab2.group22@gmail.com,","HELLO MAILBOX!");
 
             // Assert
             assertTrue(report.isSuccess());
@@ -91,8 +102,12 @@ public class GradleHandlerTest {
         String projectPath = "GradleTestProjects/FailingTestsProject";
         try {
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
+
             // Act
             Report report = GradleHandler.build(projectDirectory);
+            Mailserver mailserver = new Mailserver();
+            SendMail sendmail = new SendMail();
+            MimeMessage message = sendmail.SendMail(report, mailserver, "dd2480.lab2.group22@gmail.com,","HELLO MAILBOX!");
 
             // Assert
             assertFalse(report.isSuccess());
