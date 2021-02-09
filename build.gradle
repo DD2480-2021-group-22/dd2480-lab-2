@@ -18,6 +18,7 @@ dependencies {
     compile group: 'org.gradle', name: 'gradle-tooling-api', version: '6.8'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    compile "mysql:mysql-connector-java:6.0.6"
 }
 
 test {
