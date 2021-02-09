@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MysqlDatabase {
+    /**
+     * Creates a Connection object and connects it to localhost mysql server
+     * @return Connection object
+     */
     public static Connection connectToDB (){
         try{
             //Try getting an object from class com.mysql.jdbc.Driver
@@ -27,6 +31,12 @@ public class MysqlDatabase {
         }
         return null;
     }
+
+    /**
+     * Inserts the given CommitStructure object into the database
+     * @param commit The CommitStructure Object with set values for inserting into database
+     * @return Boolean that signals if the insert was successfull or not
+     */
     public static boolean insertCommitToDatabase(CommitStructure commit) throws SQLException {
         Connection connection = connectToDB();
         if(connection!=null){
@@ -51,6 +61,10 @@ public class MysqlDatabase {
         return false;
     }
 
+    /**
+     * Selects all rows from database
+     * @return Returns a list with all of the rows read as CommitStructure objects
+     */
     public static List<CommitStructure> selectAllCommits() throws SQLException {
         List <CommitStructure> commits = new ArrayList<CommitStructure>();
         Connection connection = connectToDB();

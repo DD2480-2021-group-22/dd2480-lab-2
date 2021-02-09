@@ -8,6 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DatabaseTest {
 
+    /**
+     * Test that asserts that a valid set of column values was successfully
+     * inserted into the database
+     * Expected result: True
+     */
     @Test
     public void testInsertingValidValues() throws SQLException {
         CommitStructure commit = new CommitStructure();
@@ -19,10 +24,15 @@ public class DatabaseTest {
         assertTrue(MysqlDatabase.insertCommitToDatabase(commit));
     }
 
+    /**
+     * Test to show all of the rows in the database.
+     * Expected result: True (if there exists rows in the table, we should receive data)
+     */
     @Test
-    public void testSelectingAllRows() throws SQLException {
+    public void testSelectingAllRowsWhenDatabaseIsNotEmpty() throws SQLException {
         List<CommitStructure> commits = MysqlDatabase.selectAllCommits();
         for(int i = 0 ; i<commits.size() ; i++)
             commits.get(i).printAllValues();
+        assertTrue(!commits.isEmpty());
     }
 }
