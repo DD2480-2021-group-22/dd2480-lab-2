@@ -7,17 +7,26 @@ import java.util.List;
 public class MysqlDatabase {
     private Connection connection;
 
+    /**
+     * Create a new MysqlDatabase using the default connection.
+     */
     MysqlDatabase(){
         this.connection = connectToDB();
     }
-    public Connection getConnection(){
-        return this.connection;
+
+    /**
+     * Create a new MysqlDatabase from an existing SQL connnection.
+     * @param connection
+     */
+    public MysqlDatabase(Connection connection){
+        this.connection = connection;
     }
+
     /**
      * Creates a Connection object and connects it to localhost mysql server
      * @return Connection object
      */
-    public static Connection connectToDB (){
+    private Connection connectToDB() {
         try{
             //Try getting an object from class com.mysql.jdbc.Driver
             try {
@@ -45,7 +54,7 @@ public class MysqlDatabase {
      * @param commit The CommitStructure Object with set values for inserting into database
      * @return Boolean that signals if the insert was successfull or not
      */
-    public static boolean insertCommitToDatabase(Connection connection, CommitStructure commit) throws SQLException {
+    public boolean insertCommitToDatabase(CommitStructure commit) throws SQLException {
         if(connection!=null){
             //Use prepared statements for security purposes
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO commit VALUES(?,?,?,?)");
@@ -69,7 +78,7 @@ public class MysqlDatabase {
      * Selects all rows from database
      * @return Returns a list with all of the rows read as CommitStructure objects
      */
-    public static List<CommitStructure> selectAllCommits(Connection connection) throws SQLException {
+    public List<CommitStructure> selectAllCommits() throws SQLException {
         List <CommitStructure> commits = new ArrayList<CommitStructure>();
         if(connection!=null){
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM commit");
