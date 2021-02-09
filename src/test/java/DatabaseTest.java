@@ -20,7 +20,8 @@ public class DatabaseTest {
         commit.setBuildDate("2021-02-05 21:22:04");
         commit.setBuildResult(true);
         commit.setBuildLogs("BUILD SUCCESSFUL in 2s");
-        assertTrue(MysqlDatabase.insertCommitToDatabase(commit));
+        MysqlDatabase con = new MysqlDatabase();
+        assertTrue(MysqlDatabase.insertCommitToDatabase(con.getConnection() , commit));
     }
 
     /**
@@ -29,7 +30,8 @@ public class DatabaseTest {
      */
     @Test
     public void testSelectingAllRowsWhenDatabaseIsNotEmpty() throws SQLException {
-        List<CommitStructure> commits = MysqlDatabase.selectAllCommits();
+        MysqlDatabase con = new MysqlDatabase();
+        List<CommitStructure> commits = MysqlDatabase.selectAllCommits(con.getConnection());
         assertTrue(!commits.isEmpty());
     }
 }

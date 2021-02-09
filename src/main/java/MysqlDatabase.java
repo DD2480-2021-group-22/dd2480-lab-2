@@ -5,6 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MysqlDatabase {
+    private Connection connection;
+
+    MysqlDatabase(){
+        this.connection = connectToDB();
+    }
+    public Connection getConnection(){
+        return this.connection;
+    }
     /**
      * Creates a Connection object and connects it to localhost mysql server
      * @return Connection object
@@ -22,8 +30,8 @@ public class MysqlDatabase {
             //Try connecting to database 'test' with username=root and password=root.
             try {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?autoReconnect=true&useSSL=false","root","root");
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
             return connection;
         } catch(Exception e) {
@@ -37,8 +45,7 @@ public class MysqlDatabase {
      * @param commit The CommitStructure Object with set values for inserting into database
      * @return Boolean that signals if the insert was successfull or not
      */
-    public static boolean insertCommitToDatabase(CommitStructure commit) throws SQLException {
-        Connection connection = connectToDB();
+    public static boolean insertCommitToDatabase(Connection connection, CommitStructure commit) throws SQLException {
         if(connection!=null){
             //Use prepared statements for security purposes
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO commit VALUES(?,?,?,?)");
@@ -64,9 +71,8 @@ public class MysqlDatabase {
      * Selects all rows from database
      * @return Returns a list with all of the rows read as CommitStructure objects
      */
-    public static List<CommitStructure> selectAllCommits() throws SQLException {
+    public static List<CommitStructure> selectAllCommits(Connection connection) throws SQLException {
         List <CommitStructure> commits = new ArrayList<CommitStructure>();
-        Connection connection = connectToDB();
         if(connection!=null){
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM commit");
             ResultSet result = preparedStatement.executeQuery();
