@@ -1,0 +1,28 @@
+h1 {
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffa8d1;
+}
+
+.field {
+    display: inline-block;
+    padding:0px 10px;
+}
+
+#currentDiv {
+    margin-bottom: -15px;
+    border-bottom: solid;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+#previousDiv {
+
+    margin-top: 50px;
+
+}
+
