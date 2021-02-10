@@ -32,7 +32,7 @@ public class Payload {
      * @return the commit hash corresponding to the push.
      */
     public String getCommitHash() {
-        return after;
+            return after;
     }
 
     /**
@@ -40,7 +40,7 @@ public class Payload {
      * @return the url of the repo where the push was made.
      */
     public String getUrl() {
-        return repository.url;
+            return repository.url;
     }
 
     /**
@@ -48,6 +48,6 @@ public class Payload {
      * @return the name of the repository where the push was made.
      */
     public String getName() {
-        return repository.name;
+            return repository.name;
     }
 }

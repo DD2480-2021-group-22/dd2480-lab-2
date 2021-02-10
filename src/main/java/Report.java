@@ -1,5 +1,6 @@
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Report class
@@ -46,6 +47,16 @@ public class Report {
 
     /**
      *
+     * @return Formated logs with linebreak replacement in HTML syntax.
+     */
+    public String getFormatedLogs(){
+        String string = logs;
+        string = string.replace(">","<br>>");
+        return string;
+    };
+
+    /**
+     *
      * @return The build date
      */
     public ZonedDateTime getDate() {
@@ -54,10 +65,32 @@ public class Report {
 
     /**
      *
+     * @return Formated string date
+     */
+    public String getFormatedDate(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy 'at' hh:mm a z");
+        String formatedstring = formatter.format(date);
+
+        return formatedstring;
+    };
+
+    /**
+     *
      * @return The execution time of the build
      */
     public Duration getRuntime() {
         return runtime;
     }
+
+    /**
+     * Taken from: https://stackoverflow.com/questions/3471397/how-can-i-pretty-print-a-duration-in-java
+     * @return Formated prettyprint runtime duration.
+     */
+    public String getFormatedRuntime(){
+        return runtime.toString()
+                .substring(2)
+                .replaceAll("(\\d[HMS])(?!$)", "$1 ")
+                .toLowerCase();
+    };
 
 }
