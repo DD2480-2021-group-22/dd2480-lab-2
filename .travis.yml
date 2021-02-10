@@ -1,0 +1,4 @@
+# From https://medium.com/@mglover/automated-java-tests-with-gradle-and-travis-ci-a6c8897231a2
+language: java
+jdk:
+  - openjdk14
