@@ -116,6 +116,9 @@ Top-level testing is done through a integration test, where the notification of 
 **Kani Yildirim**
 
 **Keivan Matinzadeh**
+- Implementation of the build history report according to the format given in the assignment description:
+  - Creating a new class and method to generate an HTML document populated with information from the database.
+  - Using Javascript to make the report dynamic, and using CSS to style the report. 
 
 **Kitty Thai**
 - Implementation of `GradleHandler` and corresponding tests.
