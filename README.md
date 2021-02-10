@@ -90,6 +90,10 @@ The server must be hosted on a machine and can be set up in a git-compatible rep
 
 **Johan Grundberg**
 - Implementation of `GradleHandler` and corresponding tests.
+- Initial implementation of `Payload` with parsing and corresponding tests. 
+- Implementation of the `RepoSnapshot` class with code for cloning and checking out the repo, as well as corresponding tests. 
+- Helped refactor `MysqlDatabase` and corresponding tests to support testing with no dependencies on MySQL. 
+- Helped with integration of cloning, building and email tasks and writing the integration test ensuring all of these work together. 
 
 **Kani Yildirim**
 
