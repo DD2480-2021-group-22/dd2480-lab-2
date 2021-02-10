@@ -2,5 +2,9 @@
   "after": "750eb142f8746ca9bb52b6d21156afbea13ad80f",
   "repository": {
     "name": "some correct name"
+  },
+  "pusher": {
+    "name": "Kalle",
+    "email": "dd2480.lab2.group22@gmail.com"
   }
 }
