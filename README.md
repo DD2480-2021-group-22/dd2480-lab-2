@@ -52,14 +52,17 @@ For documentation on the different functions used, see code comments and especia
          │   └── DatabaseTest.java
          │   └── GradleHandlerTest.java
          │   └── PayloadTest.java
+         │   └── IntegrationTest.java
          │   └── RepoSnapshotTest.java
          │   └── SendMailTest.java
          └── resources
              └── GradleTestProjects/..
              └── database.sql
-             └── invalid-repository-payload.JSON
+             └── invalid-repository-email-payload.JSON
              └── no-url-payload.JSON
+             └── real-payload.JSON
              └── valid-payload.JSON
+             
  
  ```
 
