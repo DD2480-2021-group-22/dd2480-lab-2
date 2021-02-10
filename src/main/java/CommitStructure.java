@@ -3,7 +3,7 @@
  */
 public class CommitStructure {
     private String commitID , buildDate , buildLogs;
-    private boolean testResult, buildResult;
+    private boolean buildResult;
 
     public String getCommitID() {
         return commitID;

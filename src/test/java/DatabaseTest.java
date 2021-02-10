@@ -43,8 +43,8 @@ public class DatabaseTest {
     public void setUp(@TempDir Path path) throws ManagedProcessException, SQLException {
         // See https://github.com/vorburger/MariaDB4j
         DBConfigurationBuilder configBuilder = DBConfigurationBuilder.newBuilder();
-        configBuilder.setPort(3306); // OR, default: setPort(0); => autom. detect free port
-        configBuilder.setDataDir(path.toString()); // just an example
+        configBuilder.setPort(0); // Setting port to 0 to let configBuilder choose a free open port.
+        configBuilder.setDataDir(path.toString());
         configBuilder.setDeletingTemporaryBaseAndDataDirsOnShutdown(false);
         db = DB.newEmbeddedDB(configBuilder.build());
         db.start();
@@ -78,7 +78,8 @@ public class DatabaseTest {
     }
 
     /**
-     * Test to show all of the rows in the database.
+     * Test to show all of the rows in the database, and to see that the commitID inserted into the database
+     * matches the commitID retrieved.
      * Expected result: Non-empty list (if there exists rows in the table, we should receive data)
      */
     @Test
@@ -90,6 +91,7 @@ public class DatabaseTest {
         List<CommitStructure> commits = mysqlDatabase.selectAllCommits();
         // Assert
         assertFalse(commits.isEmpty());
+        assertEquals(commits.get(0).getCommitID() , commit.getCommitID());
     }
 
     /**

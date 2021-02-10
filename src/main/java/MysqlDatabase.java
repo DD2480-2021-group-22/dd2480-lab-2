@@ -28,7 +28,7 @@ public class MysqlDatabase {
      */
     private Connection connectToDB() {
         try{
-            //Try getting an object from class com.mysql.jdbc.Driver
+            //See https://www.javatpoint.com/example-to-connect-to-the-mysql-database
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
             } catch (ClassNotFoundException classNotFound) {
