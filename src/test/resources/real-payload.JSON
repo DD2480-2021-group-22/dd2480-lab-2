@@ -1,0 +1,11 @@
+{
+    "after":"1d3d5329bfab0e4b5466486002cd59fc2aa26d3f",
+    "repository": {
+      "url":"https://github.com/DD2480-2021-group-22/dd2480-lab-2",
+      "name":"dd2480-lab-2"
+    },
+    "pusher":{
+      "name":"group22",
+      "email":"dd2480.lab2.group22@gmail.com"
+    }
+}

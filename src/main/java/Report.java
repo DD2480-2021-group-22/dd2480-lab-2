@@ -51,7 +51,8 @@ public class Report {
      */
     public String getFormatedLogs(){
         String string = logs;
-        string = string.replace(">","<br>>");
+        // See https://stackoverflow.com/questions/3445326/regex-in-java-how-to-deal-with-newline
+        string = string.replaceAll("\r\n|[\r\n]","<br>");
         return string;
     };
 

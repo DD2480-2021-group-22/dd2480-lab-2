@@ -20,14 +20,8 @@ public class GradleHandlerTest {
             String projectPath = "GradleTestProjects/CompilableProject";
             // https://stackoverflow.com/questions/28673651/how-to-get-the-path-of-src-test-resources-directory-in-junit
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
-            Mailserver mailserver = new Mailserver();
-            SendMail sendmail = new SendMail();
-            Payload payload = new Payload();
-            mailserver.useGmailSMTP();
             // Act
             Report report = GradleHandler.build(projectDirectory);
-            MimeMessage message = sendmail.sendMail(report, payload, mailserver, mailserver.getSendermail(), "Test");
-            //CHANGE THE TO- ADDRESS WHEN PAYLOAD HAVE CORRECT STRUCTURE;
 
             // Assert
             assertTrue(report.isSuccess());
