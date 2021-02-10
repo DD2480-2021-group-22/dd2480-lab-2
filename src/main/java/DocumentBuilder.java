@@ -3,11 +3,25 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * A class to create and generate a report in html.
+ */
+
 public class DocumentBuilder {
 
     public DocumentBuilder() {
     }
 
+    /**
+     * Generates an HTML report by using bufferedwriter to write string objects,
+     * formatted to look like HTML syntax, to a file.
+     *
+     * @param commitID
+     * @param buildDate
+     * @param testResult
+     * @param buildStatus
+     * @param buildLogs
+     */
     public void writeDoc(String commitID, String buildDate, String testResult, String buildStatus, String buildLogs) {
         String start = "<!DOCTYPE html>\n<html><head>\n" +
                 "<link rel=\"stylesheet\" href=\"styles.css\">\n" +
