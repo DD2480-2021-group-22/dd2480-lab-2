@@ -4,5 +4,9 @@
     "name": "test-repo",
     "url": "da24802021group22.com"
   },
-  "somethingNotUsed": 2
+  "somethingNotUsed": 2,
+  "pusher": {
+    "name": "Kalle",
+    "email": "dd2480.lab2.group22@gmail.com"
+  }
 }

@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +20,6 @@ public class GradleHandlerTest {
             String projectPath = "GradleTestProjects/CompilableProject";
             // https://stackoverflow.com/questions/28673651/how-to-get-the-path-of-src-test-resources-directory-in-junit
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
-
             // Act
             Report report = GradleHandler.build(projectDirectory);
 
@@ -91,6 +91,7 @@ public class GradleHandlerTest {
         String projectPath = "GradleTestProjects/FailingTestsProject";
         try {
             File projectDirectory = new File(getClass().getClassLoader().getResource(projectPath).getFile());
+
             // Act
             Report report = GradleHandler.build(projectDirectory);
 

@@ -31,7 +31,7 @@ public class RepoSnapshot {
      * @param payload The payload from which to retrieve repository information.
      */
     public RepoSnapshot(Payload payload) {
-        this.name = payload.getName();
+        this.name = payload.getRepoName();
         this.url = payload.getUrl();
         this.commitHash = payload.getCommitHash();
     }

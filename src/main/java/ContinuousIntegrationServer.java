@@ -1,10 +1,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,16 +32,21 @@ public class ContinuousIntegrationServer extends AbstractHandler
         String reqString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         Payload payload = Payload.parse(reqString);
-        System.out.println(new Gson().toJson(payload));
 
         File dir = Files.createTempDirectory("temp").toFile();
         try {
+            // Clones repo
             File repo = new RepoSnapshot(payload).cloneFiles(dir);
-            System.out.printf("Repo cloned to %s\n", repo);
-            System.out.println("Files in it: ");
-            System.out.println(Arrays.toString(repo.listFiles()));
+            // Executes gradle build
+            Report buildReport = GradleHandler.build(repo);
+            // Sends mail
+            Mailserver mailserver = new Mailserver();
+            mailserver.useGmailSMTP();
+            SendMail sendMail = new SendMail();
+            sendMail.sendMail(buildReport, payload, mailserver, payload.getPusherEmail(), "Hello");
+
         } catch (Exception e) {
-            System.out.println("Failed to clone repo");
+            System.out.println("Failed to process repo: " + e.getMessage());
         }
 
         // here you do all the continuous integration tasks
