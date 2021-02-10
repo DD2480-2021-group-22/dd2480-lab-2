@@ -57,6 +57,8 @@ public class ContinuousIntegrationServer extends AbstractHandler
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
+        DocumentBuilder db = new DocumentBuilder();
+        db.writeDoc("1", "2", "3", "4", "5");
         Server server = new Server(8080);
         server.setHandler(new ContinuousIntegrationServer());
         server.start();
