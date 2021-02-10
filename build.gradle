@@ -18,6 +18,8 @@ dependencies {
     compile group: 'org.gradle', name: 'gradle-tooling-api', version: '6.8'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
+    testCompile group: 'ch.vorburger.mariaDB4j', name: 'mariaDB4j', version: '2.4.0'
 }
 
 test {
