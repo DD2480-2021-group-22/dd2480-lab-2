@@ -83,7 +83,7 @@ public class Report {
     }
 
     /**
-     *
+     * Taken from: https://stackoverflow.com/questions/3471397/how-can-i-pretty-print-a-duration-in-java
      * @return Formated prettyprint runtime duration.
      */
     public String getFormatedRuntime(){

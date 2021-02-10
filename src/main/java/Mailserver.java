@@ -11,12 +11,6 @@ public class Mailserver {
 
 
     public Mailserver() {
-        this.host = host;
-        this.port = port;
-        debug= true;
-        this.username = username;
-        this.password = password;
-        this.sendermail = sendermail;
     }
 
     /**
@@ -28,6 +22,7 @@ public class Mailserver {
 
     /**
      * Sets default mailserver to mailtrap SMTP.
+     * Only used when large amount of mail is generated.
      */
     public void useMailTrap(){
         this.setNewMailServer( "smtp.mailtrap.io", 2525, "6189bbfe46e3f3", "7fcb468baea694","CI-Server@kth.se" );

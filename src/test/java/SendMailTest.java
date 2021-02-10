@@ -14,9 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SendMailTest {
 
-
-    @BeforeEach
-    public void setUp() {
         /**
          * Lower-level test: Tests that all the fields of the MimeMessage that is generated corresponds to the inputs that are given.
          * Top-level integration test is done in the GradleHandlerTest.java.
@@ -27,11 +24,11 @@ public class SendMailTest {
          * assertThat(): Asserts that the content (body) of the mail contains the correct data strings.
          * @throws MessagingException
          */
-    }
     @Test
     public void headerTestMimeMessage() throws MessagingException, IOException {
         // Arrange
         Mailserver mailserver = new Mailserver();
+        mailserver.useGmailSMTP();
         Boolean success = false;
         String logs = "logs";
         ZonedDateTime date = ZonedDateTime.now();
@@ -49,7 +46,7 @@ public class SendMailTest {
         assertEquals("dd2480.lab2.group22@gmail.com",message.getHeader("To",null));
         assertEquals(mailserver.getSendermail() ,message.getHeader("From", null));
         assertEquals("text/html; charset=UTF-8" ,message.getHeader("Content-Type", null));
-        assertThat(message.getHeader("Subject",null), StringContains.containsString("Notification for buildhash: Not Found."));
+        assertThat(message.getHeader("Subject",null), StringContains.containsString("Notification for commithash: Not Found."));
         assertThat(message.getContent().toString(), StringContains.containsString("HELLO MAILBOX!"));
         assertThat(message.getContent().toString(), StringContains.containsString("Runtime: "+ report.getFormatedRuntime()));
         assertThat(message.getContent().toString(), StringContains.containsString("Date: "+report.getFormatedDate()));
@@ -67,9 +64,9 @@ public class SendMailTest {
     public void exceptionTestInvalidSendToFormat() throws MessagingException, IOException {
         // Arrange
         Mailserver mailserver = new Mailserver();
+        mailserver.useGmailSMTP();
         Boolean success = false;
         String logs = "logs";
-
         ZonedDateTime date = ZonedDateTime.now();
         Duration runtime = Duration.ofSeconds(10);
         String sendto = "aaa";

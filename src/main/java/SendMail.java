@@ -28,13 +28,12 @@ public class SendMail {
      * @param to
      * @param content
      * @param payload
-     * @return
+     * @return Send message via transport and returns the sent MimeMessage object used for testing.
      */
     public MimeMessage sendMail(Report report, Payload payload, Mailserver mailserver, String to, String content) {
         String messagebody;
         String subjectstring;
         // Set Properties
-        mailserver.useGmailSMTP();
         Properties props = new Properties();
         props.put( "mail.smtp.auth", "true" );
         props.put( "mail.smtp.host", mailserver.getHost() );
@@ -95,7 +94,7 @@ public class SendMail {
      * Generates the subject-header.
      *
      * @param payload
-     * @return
+     * @return String for subject field of MimeMessage.
      */
     private String CreateSubject(Payload payload){
         String commithash = payload.getCommitHash();
@@ -104,7 +103,7 @@ public class SendMail {
         }
 
         StringBuilder subjectstring = new StringBuilder();
-        subjectstring.append("Notification for buildhash: "+ commithash);
+        subjectstring.append("Notification for commithash: "+ commithash);
         String tempstring = subjectstring.toString();
 
         return tempstring;
@@ -116,7 +115,7 @@ public class SendMail {
      * @param report
      * @param payload
      * @param message
-     * @return
+     * @return String for context field of MimeMessage.
      */
     private String CreateMessage(Report report, Payload payload, String message){
         String date = null;
