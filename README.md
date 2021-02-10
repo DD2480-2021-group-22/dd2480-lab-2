@@ -84,7 +84,7 @@ Compilation is implemented as part of the Gradle build task. The Gradle build ta
 #### P2: Testing
 Testing is also implemented as part of the Gradle build task. The Gradle build task runs the Gradle test task, which runs the JUnit tests of the project. 
 
-*Testing:* The testing functionality is unit-tested through two tests: One test asserts that a Gradle project which compiles but fails a test causes a failing build. The other test asserts that a Gradle project which compiles and has one passing test causes a successful build. 
+*Testing:* The testing functionality is unit-tested through two tests: One test asserts that a Gradle project which compiles but fails a test causes a failing build. The other test asserts that a Gradle project which compiles and has one passing test causes a successful build. These tests are found in the `GradleHandlerTest` class.
 
 #### P3: Notifications (email)
 The implementaion of mail utilizes javax.mail library to send email to the commit issuer.
