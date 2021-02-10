@@ -13,7 +13,7 @@ file [src/main/java/ContinuousIntegrationServer.java](src/main/java/ContinuousIn
 Gradle can be used to build and test the project. To do this, run `gradle build` in the root of the repo. 
 
 ### Documentation
-For documentation on the different functions used, see code comments and especially javadoc comments. 
+For documentation on the different methods and classes used, see code comments and especially javadoc comments. Javadoc was generated from commit 6298f23cc798500e18d5d0eae60edca5b81e7f97 (or possibly 9350876b9d7b90df83991aa63c5598099e7af14d) at 2020-02-10 and is hosted [here](https://dd2480-2021-group-22.github.io/dd2480-lab-2/) via GitHub pages. 
 
 ### Commit message conventions
 1. Each commit should reference an issue in the first line. To do this, use the "#" sign followed by the issue number. For example, a commit message might start with the line "fix #1". 
