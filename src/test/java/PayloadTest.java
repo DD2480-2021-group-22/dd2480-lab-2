@@ -1,4 +1,3 @@
-import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
@@ -26,7 +25,7 @@ public class PayloadTest {
         Payload payload = Payload.parse(valid);
 
         // Assert
-        assertEquals("test-repo", payload.getName(), "failed to parse repo name");
+        assertEquals("test-repo", payload.getRepoName(), "failed to parse repo name");
         assertEquals(hash, payload.getCommitHash(), "failed to parse commit hash");
         assertEquals("da24802021group22.com", payload.getUrl(), "failed to parse repo url");
     }
@@ -39,7 +38,7 @@ public class PayloadTest {
     @Test
     public void invalidPayloadThrows() {
         // Arrange
-        String invalid1 =  new Scanner(this.getClass().getResourceAsStream("invalid-repository-payload.JSON"))
+        String invalid1 =  new Scanner(this.getClass().getResourceAsStream("invalid-repository-email-payload.JSON"))
                 .useDelimiter("\\Z").next();
         String invalid2 =  new Scanner(this.getClass().getResourceAsStream("no-url-payload.JSON"))
                 .useDelimiter("\\Z").next();
