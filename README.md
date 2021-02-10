@@ -29,41 +29,64 @@ For documentation on the different functions used, see code comments and especia
     1. "chore": Updating grunt tasks etc; no production code change.
 
 
-### Project structure
-This is the structure of the source code for the project. The illustration was taken from [here](https://stackoverflow.com/questions/41638654/java-project-folder-structure-in-intellij-idea).
-```
-.
-│  
-└── src
-    ├── main
-    │   └── java   
-    │       └── CommitStructure.java
-    │       └── ContinuousIntegrationServer.java
-    │       └── GradleHandler.java
-    │       └── Mailserver.java
-    │       └── MysqlDatabase.java
-    │       └── Payload.java
-    │       └── Report.java
-    │       └── ReportSnapshot.java
-    │       └── SendMail.java
-    │   
-    └── test
-        └── java
-            └── DatabaseTest.java
-            └── GradleHandlerTest.java
-            └── PayloadTest.java
-            └── RepoSnapshotTest.java
-            └── SendMailTest.java
-       
-```
+ ### Project structure
+ This is the structure of the source code for the project. The illustration is taken from [here](https://stackoverflow.com/questions/41638654/java-project-folder-structure-in-intellij-idea).
+ ```
+ .
+ │  
+ └── src
+     ├── main
+     │   └── java 
+     │       └── CommitStructure.java
+     │       └── ContinuousIntegrationServer.java
+     │       └── GradleHandler.java  
+     │       └── Mailserver.java
+     │       └── MysqlDatabase.java
+     │       └── Payload.java
+     │       └── Report.java
+     │       └── RepoSnapshot.java
+     │       └── SendMail.java
+     │   
+     └── test
+         └── java
+         │   └── DatabaseTest.java
+         │   └── GradleHandlerTest.java
+         │   └── PayloadTest.java
+         │   └── RepoSnapshotTest.java
+         │   └── SendMailTest.java
+         └── resources
+             └── GradleTestProjects/..
+             └── database.sql
+             └── invalid-repository-payload.JSON
+             └── no-url-payload.JSON
+             └── valid-payload.JSON
+ 
+ ```
 
 ### Usage
 The CI server is located at [src/main/java/ContinuousIntegrationServer.java](src/main/java/ContinuousIntegrationServer.java). 
 The server must be hosted on a machine and can be set up in a git-compatible repository which has support for webhooks.  
 
+ ##Grading Criteria
+ 
+ **P3 Notifications:**  The implementaion of mail utilizes javax.mail library to send email to the commit issuer.
+ The server information is stored and could also be set in `Mailserver.java` and is passed in as argument for `SendMail.java`
+ together with the objects `report` and `payload`. The `SendMail` class then formats the information and sends a notification to
+ the specified mail-address, notifying the user about build status, build date, build duration and build logs.
+ 
+ ***Testing:*** Lower-level testing is done through a local unit test in `SendMailTest` with fixed variable, sending a notification
+ to the senders own mailaddress. The generated MimeMessage is then checked that all correct fields corresponds to the objects Mailserver.java and Report.java.
+ Top-level testing is done through a integration test, where the notification of the builds are sent to the commit issuer.
+
 ### Contributions
 
-**Binxin Su:**
+ **Binxin Su:** 
+ - Implements P3 Notification #9 by adding `SendMail.java` class that sets properties for a outgoing SMTP server, 
+ generates a MimeMessage with correct format and sends it to a valid address (in integration test that is set to the commit issuer).
+ - Adds `Mailserver.java` class that contains SMTP server information with corresponding getters and setters.
+ - Implements unit tests for the generated MimeMessage, testing that fields of the MimeMessage corresponds to the inputs of the `Report` and 
+  `Payload` classes #9.
+  - Adds getters and formatting of date, duration and logs in `Report.java`.
 
 **Johan Grundberg**
 - Implementation of `GradleHandler` and corresponding tests.
@@ -76,4 +99,8 @@ The server must be hosted on a machine and can be set up in a git-compatible rep
 - Implementation of `GradleHandler` and corresponding tests.
 - Bug fix #22.
 - Add implementation of `Payload` to retrieve name and email about the pusher.
+
+
  
+
+
