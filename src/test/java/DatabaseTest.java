@@ -78,9 +78,10 @@ public class DatabaseTest {
     }
 
     /**
-     * Test to show all of the rows in the database, and to see that the commitID inserted into the database
-     * matches the commitID retrieved.
-     * Expected result: Non-empty list (if there exists rows in the table, we should receive data)
+     * Test to show all of the rows in the database, and to see that
+     * the commitID inserted into the database matches the commitID retrieved.
+     * Expected result: Non-empty list (if there exists rows in the table, we
+     * should receive data) with the same commit as the inserted one.
      */
     @Test
     public void testSelectingAllRowsWhenNotEmpty() throws SQLException {
