@@ -76,14 +76,25 @@ build and test the project using the gradle build task, and then sends the resul
 
 ### Grading Criteria
 
-**P3 Notifications:**  The implementaion of mail utilizes javax.mail library to send email to the commit issuer.
+#### P1: Compilation
+Compilation is implemented as part of the Gradle build task. The Gradle build task runs the Gradle assemble task, which compiles the project. 
+
+*Testing:* Compilation is unit-tested through two tests: One test ensures that a Gradle project with no syntax errors and no tests builds successfully. The other test ensures that the build fails for a Gradle project with a syntax error. These tests are found in the `GradleHandlerTest` class. 
+
+#### P2: Testing
+Testing is also implemented as part of the Gradle build task. The Gradle build task runs the Gradle test task, which runs the JUnit tests of the project. 
+
+*Testing:* The testing functionality is unit-tested through two tests: One test asserts that a Gradle project which compiles but fails a test causes a failing build. The other test asserts that a Gradle project which compiles and has one passing test causes a successful build. 
+
+#### P3: Notifications (email)
+The implementaion of mail utilizes javax.mail library to send email to the commit issuer.
 The server information is stored and could also be set in `Mailserver.java` and is passed in as argument for `SendMail.java`
 together with the objects `report` and `payload`. The `SendMail` class then formats the information and sends a notification to
-the specified mail-address, notifying the user about build status, build date, build duration and build logs.
+the specified mail-address, notifying the user about build status, build date, build duration and build logs. 
 
-***Testing:*** Lower-level testing is done through a local unit test in `SendMailTest` with fixed variable, sending a notification
+*Testing:* Lower-level testing is done through a local unit test in `SendMailTest` with fixed variable, sending a notification
 to the senders own mailaddress. The generated MimeMessage is then checked that all correct fields corresponds to the objects Mailserver.java and Report.java.
-Top-level testing is done through a integration test, where the notification of the builds are sent to the commit issuer.
+Top-level testing is done through a integration test, where the notification of the builds are sent to the commit pusher.
 
 ### Contributions
 
