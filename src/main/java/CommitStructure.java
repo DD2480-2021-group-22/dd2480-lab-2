@@ -1,5 +1,8 @@
 /**
- * Class with all the columns for table "commit" and their getters/setters. Simplifies fetching results from database
+ * Container for all the columns from table "commit" and their getters/setters.
+ * Simplifies fetching results from database.
+ *
+ * Instantiation of class by default constructor and the use of setters to change the values of the fields.
  */
 public class CommitStructure {
     private String commitID , buildDate , buildLogs;
@@ -37,6 +40,10 @@ public class CommitStructure {
         this.buildResult = buildResult;
     }
 
+    /**
+     * Print out all the values of the fields.
+     * Method used for debugging.
+     */
     public void printAllValues(){
         System.out.println("Commit ID: " + this.getCommitID() +
                 "  Build Date: " + this.getBuildDate() +

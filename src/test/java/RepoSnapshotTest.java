@@ -11,13 +11,13 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the RepoSnapshot class.
+ * Test class for unit testing of cloning repositories and checking out commits.
  */
 public class RepoSnapshotTest {
 
     /**
      * Asserts that the lab repo is cloned correctly into a temporary folder by
-     * checking that the repo cloned is non-empty and that the git ref matches the given commit.
+     * checking that the repo cloned is non-empty and that the git HEAD ref matches the given commit.
      * @param tempDir A temporary directory provided by JUnit.
      * @throws GitAPIException if test fails
      * @throws IOException if test fails

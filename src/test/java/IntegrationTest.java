@@ -7,7 +7,13 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests different dataflows of the CI server
+ */
 public class IntegrationTest {
+    /**
+     * Tests integration of cloning repo, building and sending email notification.
+     */
     @Test
     public void testEmailProcess(@TempDir File tempDir) throws Exception {
 

@@ -4,6 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a instance of a MySQL database used by the CI server.
+ */
 public class MysqlDatabase {
     private Connection connection;
 
@@ -15,7 +18,7 @@ public class MysqlDatabase {
     }
 
     /**
-     * Create a new MysqlDatabase from an existing SQL connnection.
+     * Create a new MysqlDatabase from an existing SQL connection.
      * @param connection
      */
     public MysqlDatabase(Connection connection){
@@ -52,7 +55,7 @@ public class MysqlDatabase {
     /**
      * Inserts the given CommitStructure object into the database
      * @param commit The CommitStructure Object with set values for inserting into database
-     * @return Boolean that signals if the insert was successfull or not
+     * @return Boolean that signals if the insert was successful or not
      */
     public boolean insertCommitToDatabase(CommitStructure commit) throws SQLException {
         if(connection!=null){
@@ -75,7 +78,7 @@ public class MysqlDatabase {
     }
 
     /**
-     * Selects all rows from database
+     * Selects all rows from the table "commit" in the database.
      * @return Returns a list with all of the rows read as CommitStructure objects
      */
     public List<CommitStructure> selectAllCommits() throws SQLException {
