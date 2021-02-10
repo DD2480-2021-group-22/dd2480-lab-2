@@ -68,7 +68,11 @@ For documentation on the different functions used, see code comments and especia
 
 ### Usage
 The CI server is located at [src/main/java/ContinuousIntegrationServer.java](src/main/java/ContinuousIntegrationServer.java). 
-The server must be hosted on a machine and can be set up in a git-compatible repository which has support for webhooks.  
+The server must be hosted on a machine and can be set up for any public GitHub repository which has support for webhooks. In order
+for the notification emails to work, the pusher must have a public GitHub email address. To set up the server for a repo, one runs 
+the server and then configures a webhook for the server address, with content type`application/json` for `push` events. Then, 
+whenever a push is made, the CI server checks out the last commit and tries to build and test the project using the gradle build task, 
+and then sends the results to the pusher's email address. 
 
 ### Grading Criteria
 
