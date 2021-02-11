@@ -38,7 +38,7 @@ public class RepoSnapshot {
 
     /**
      * Clones the repository to the target directory, and then checks it out
-     * at the commit corresponding to this Repository object.
+     * at the commit corresponding to this RepoSnapshot object.
      *
      * @param targetDirectory the directory in which to place the cloned repository.
      * @return The path to the cloned files.

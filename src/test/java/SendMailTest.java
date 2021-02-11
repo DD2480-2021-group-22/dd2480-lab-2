@@ -12,18 +12,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * Test class for unit testing of methods of SendMail.
+ */
 public class SendMailTest {
 
-        /**
-         * Lower-level test: Tests that all the fields of the MimeMessage that is generated corresponds to the inputs that are given.
-         * Top-level integration test is done in the GradleHandlerTest.java.
-         * Purpose: Asserts that the created MimeMessage that is sent to the user contains all the correct fields from the Payload object and the Mailserver object.
-         * If the fields are correct then the message has the correct structure, the sent mail should arrive to its destination.
-         * The test sets assigns a preset value for the variables success, logs, date, runtime and receiver to shared group mail at: dd2480.lab2.group22@gmail.com.
-         * assertsEquals(): Returns equal if the message headers corresponds to the correct object data.
-         * assertThat(): Asserts that the content (body) of the mail contains the correct data strings.
-         * @throws MessagingException
-         */
+    /**
+     * Tests that all the fields of the MimeMessage that is generated corresponds
+     * to the inputs that are given.
+     * Purpose: Asserts that the created MimeMessage that is sent to the user
+     * contains all the correct fields from the Payload object and the Mailserver object.
+     * If the fields are correct then the message has the correct structure, the
+     * sent mail should arrive to its destination.
+     * The test sets assigns a preset value for the variables success, logs, date,
+     * runtime and receiver to shared group mail at: dd2480.lab2.group22@gmail.com.
+     * assertsEquals(): Returns equal if the message headers corresponds to the correct object data.
+     * assertThat(): Asserts that the content (body) of the mail contains the correct data strings.
+     * @throws MessagingException
+     */
     @Test
     public void headerTestMimeMessage() throws MessagingException, IOException {
         // Arrange
@@ -54,9 +60,10 @@ public class SendMailTest {
     }
 
     /**
-     * Tests that the SendMail.java throws a runtime exception in case of an invalid format for receipiants mailaddress.
-     * aaa is not a valid format for destination address, should throw a RuntimeException
-     * assertThrows(): Throws exception if invalid destination mail-address: "aaa".
+     * Tests that the SendMail.java throws a runtime exception in case of
+     * an invalid format for recipients email address.
+     * "aaa" is not a valid format of a destination email address, should throw a RuntimeException
+     * assertThrows(): Throws exception if invalid destination email address: "aaa".
      * @throws MessagingException
      * @throws IOException
      */

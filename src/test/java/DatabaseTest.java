@@ -35,17 +35,14 @@ public class DatabaseTest {
 
     /**
      * Sets up a temporary database connection using MariaDB4j.
-     * @param path temporary directory provided by JUnit.
      * @throws ManagedProcessException
      * @throws SQLException
      */
     @BeforeEach
-    public void setUp(@TempDir Path path) throws ManagedProcessException, SQLException {
+    public void setUp() throws ManagedProcessException, SQLException {
         // See https://github.com/vorburger/MariaDB4j
         DBConfigurationBuilder configBuilder = DBConfigurationBuilder.newBuilder();
         configBuilder.setPort(0); // Setting port to 0 to let configBuilder choose a free open port.
-        configBuilder.setDataDir(path.toString());
-        configBuilder.setDeletingTemporaryBaseAndDataDirsOnShutdown(false);
         db = DB.newEmbeddedDB(configBuilder.build());
         db.start();
         db.source("database.sql");
@@ -78,9 +75,10 @@ public class DatabaseTest {
     }
 
     /**
-     * Test to show all of the rows in the database, and to see that the commitID inserted into the database
-     * matches the commitID retrieved.
-     * Expected result: Non-empty list (if there exists rows in the table, we should receive data)
+     * Test to show all of the rows in the database, and to see that
+     * the commitID inserted into the database matches the commitID retrieved.
+     * Expected result: Non-empty list (if there exists rows in the table, we
+     * should receive data) with the same commit as the inserted one.
      */
     @Test
     public void testSelectingAllRowsWhenNotEmpty() throws SQLException {

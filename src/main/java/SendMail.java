@@ -8,9 +8,9 @@ import javax.mail.internet.MimeMessage;
 import java.lang.StringBuilder;
 
 /**
- * Setup a Mimemessage and sends the message via the configured SMTP server in the object Mailserver.
+ * Setup a MimeMessage and sends the message via the configured SMTP server in the object Mailserver.
  * Message are generated using the contents in the objects Report and Payload.
- * For documentation: see javax.mail
+ * Further documentation: see javax.mail
  */
 public class SendMail {
 
@@ -19,16 +19,15 @@ public class SendMail {
     }
 
     /**
-     * Setup mail server SMTP connection and sends a mail using the context in Report and Mailserver objects.
-     * Takes in object of Report, and Mailserver
+     * Setup mail server SMTP connection and sends a mail using the content in Report and Mailserver objects.
      * See javax.mail for method documentation.
      *
-     * @param report
-     * @param mailserver
-     * @param to
-     * @param content
-     * @param payload
-     * @return Send message via transport and returns the sent MimeMessage object used for testing.
+     * @param report Build report
+     * @param mailserver The container with the mail server configurations
+     * @param to receiver's email address
+     * @param content Additional message
+     * @param payload Webhook payload
+     * @return Send message via transport and returns the sent MimeMessage object.
      */
     public MimeMessage sendMail(Report report, Payload payload, Mailserver mailserver, String to, String content) {
         String messagebody;
@@ -112,9 +111,9 @@ public class SendMail {
     /**
      * Parse and generate a message string depending on the contents of objects Report and Payload.
      *
-     * @param report
-     * @param payload
-     * @param message
+     * @param report Build report
+     * @param payload Webhook payload
+     * @param message Custom message
      * @return String for context field of MimeMessage.
      */
     private String CreateMessage(Report report, Payload payload, String message){

@@ -5,13 +5,13 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for unit testing of gradle build task.
+ */
 public class GradleHandlerTest {
     /**
-     * This test has the purpose of building a gradle project
-     * that results in a successful build.
-     *
-     * The made assertions are:
-     *  - The isSuccess() method returns true
+     * Builds a gradle project that should result in a successful build.
+     * Expected result: the build succeeds.
      */
     @Test
     public void testGradleProjectBuildSuccess() {
@@ -31,11 +31,8 @@ public class GradleHandlerTest {
     }
 
     /**
-     * This test has the purpose of building a gradle project
-     * that results in a failed build.
-     *
-     * The made assertions are:
-     *   - The isSuccess() method returns false
+     * Builds a gradle project that should result in a failed build.
+     * Expected result: the build fails.
      */
     @Test
     public void testGradleProjectBuildFail() {
@@ -54,11 +51,9 @@ public class GradleHandlerTest {
     }
 
     /**
-     * This test has the purpose of running the gradle build task of a project
-     * where tests should be passing.
-     *
-     * The made assertions are:
-     *  - The isSuccess() method returns true
+     * Executes the gradle build task of a project that
+     * should result in passing tests.
+     * Expected result: the build succeeds.
      */
     @Test
     public void testGradleProjectTestSuccess() {
@@ -79,11 +74,9 @@ public class GradleHandlerTest {
     }
 
     /**
-     * This test has the purpose of running the gradle build task of a project
-     * where tests should be failing.
-     *
-     * The made assertions are:
-     *  - The isSuccess() method returns false
+     * Executes the gradle build task of a project that
+     * should result in failing tests.
+     * Expected result: the build fails.
      */
     @Test
     public void testGradleProjectTestFail() {

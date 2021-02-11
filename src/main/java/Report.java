@@ -3,8 +3,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Report class
- *
  * This class contains information about a certain Gradle build execution.
  */
 public class Report {
@@ -15,7 +13,6 @@ public class Report {
     final private Duration runtime;
 
     /**
-     * Creates a Report object
      *
      * @param success Whether the build succeeded or not
      * @param logs The build logs
@@ -29,25 +26,17 @@ public class Report {
         this.runtime = runtime;
     }
 
-    /**
-     *
-     * @return Boolean representing the build status
-     */
     public boolean isSuccess() {
         return success;
     }
 
-    /**
-     *
-     * @return Logs associated with the build
-     */
     public String getLogs() {
         return logs;
     }
 
     /**
      *
-     * @return Formated logs with linebreak replacement in HTML syntax.
+     * @return Formatted logs with linebreak replacement in HTML syntax.
      */
     public String getFormatedLogs(){
         String string = logs;
@@ -66,7 +55,7 @@ public class Report {
 
     /**
      *
-     * @return Formated string date
+     * @return Formatted string of the build date
      */
     public String getFormatedDate(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy 'at' hh:mm a z");
@@ -75,19 +64,15 @@ public class Report {
         return formatedstring;
     };
 
-    /**
-     *
-     * @return The execution time of the build
-     */
     public Duration getRuntime() {
         return runtime;
     }
 
     /**
-     * Taken from: https://stackoverflow.com/questions/3471397/how-can-i-pretty-print-a-duration-in-java
-     * @return Formated prettyprint runtime duration.
+     * @return Human readable runtime.
      */
     public String getFormatedRuntime(){
+        // https://stackoverflow.com/questions/3471397/how-can-i-pretty-print-a-duration-in-java
         return runtime.toString()
                 .substring(2)
                 .replaceAll("(\\d[HMS])(?!$)", "$1 ")

@@ -5,6 +5,9 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * Test class for unit testing of Payload parsing
+ */
 public class PayloadTest {
 
     /**
@@ -32,8 +35,8 @@ public class PayloadTest {
 
     /**
      * Asserts that invalid payloads, one missing the url and the other with an invalid
-     * repository property, cause exceptions to be thrown. The JSON files used are available in the
-     * src/test/resources folder.
+     * repository and email property, cause exceptions to be thrown. The JSON files used
+     * are available in the src/test/resources folder.
      */
     @Test
     public void invalidPayloadThrows() {

@@ -19,7 +19,11 @@ public class Payload {
         public String email;
     }
 
-    // Constructs a Payload object from a JSON string.
+    /**
+     * Constructs a Payload object from a JSON string.
+     * @param json
+     * @return
+     */
     public static Payload parse(String json) {
         Payload p = new Gson().fromJson(json, Payload.class);
 
@@ -33,39 +37,19 @@ public class Payload {
         return p;
     }
 
-    /**
-     *
-     * @return the commit hash corresponding to the push.
-     */
     public String getCommitHash() {
             return after;
     }
 
-    /**
-     *
-     * @return the url of the repo where the push was made.
-     */
     public String getUrl() {
             return repository.url;
     }
 
-    /**
-     *
-     * @return the name of the repository where the push was made.
-     */
     public String getRepoName() {
             return repository.name;
     }
 
-    /**
-     *
-     * @return the name of the pusher
-     */
     public String getPusherName() { return pusher.name; }
 
-    /**
-     *
-     * @return email of the pusher
-     */
     public String getPusherEmail() { return pusher.email; }
 }

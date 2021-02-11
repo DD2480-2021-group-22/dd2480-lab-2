@@ -11,11 +11,23 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
 /**
- Skeleton of a ContinuousIntegrationServer which acts as webhook
- See the Jetty documentation for API documentation of those classes.
+ * A continuous integration server which listens to Github push events.
+ * The server clones the repository and checks out the last commit of the push event.
+ * Tries to build the project using Gradle, this CI sever only supports projects using Gradle.
+ * Summarizes the build result and sends an email to the pusher.
  */
 public class ContinuousIntegrationServer extends AbstractHandler
 {
+    /**
+     * Handles incoming requests to the server.
+     *
+     * @param target
+     * @param baseRequest
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void handle(
             String target,
@@ -49,15 +61,16 @@ public class ContinuousIntegrationServer extends AbstractHandler
             System.out.println("Failed to process repo: " + e.getMessage());
         }
 
-        // here you do all the continuous integration tasks
-        // for example
-        // 1st clone your repository
-        // 2nd compile the code
-
         response.getWriter().println("CI job done");
     }
 
     // used to start the CI server in command line
+
+    /**
+     * Starts the server.
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception
     {
         DocumentBuilder db = new DocumentBuilder();
