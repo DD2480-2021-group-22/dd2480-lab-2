@@ -37,31 +37,41 @@ public class ContinuousIntegrationServer extends AbstractHandler
             throws IOException, ServletException {
 
         response.setContentType("text/html;charset=utf-8");
-        response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
 
-        // see https://stackoverflow.com/questions/8100634/get-the-post-request-body-from-httpservletrequest
-        String reqString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        if (target.equals("/builds")) {
+            // generate a html-file containing all builds
+            response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
+            response.getWriter().println("This page should contain a list of build history");
+        } else if (target.substring(0,7).equals("/commit")) {
+            // generate a html-file containing build information of the given commit
+            response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
+            response.getWriter().println("This page should contain info about a build");
+        } else { // the handles request is containing the webhook payload
+            // see https://stackoverflow.com/questions/8100634/get-the-post-request-body-from-httpservletrequest
+            String reqString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
-        Payload payload = Payload.parse(reqString);
+            Payload payload = Payload.parse(reqString);
 
-        File dir = Files.createTempDirectory("temp").toFile();
-        try {
-            // Clones repo
-            File repo = new RepoSnapshot(payload).cloneFiles(dir);
-            // Executes gradle build
-            Report buildReport = GradleHandler.build(repo);
-            // Sends mail
-            Mailserver mailserver = new Mailserver();
-            mailserver.useGmailSMTP();
-            SendMail sendMail = new SendMail();
-            sendMail.sendMail(buildReport, payload, mailserver, payload.getPusherEmail(), "Hello");
+            File dir = Files.createTempDirectory("temp").toFile();
+            try {
+                // Clones repo
+                File repo = new RepoSnapshot(payload).cloneFiles(dir);
+                // Executes gradle build
+                Report buildReport = GradleHandler.build(repo);
+                // Sends mail
+                Mailserver mailserver = new Mailserver();
+                mailserver.useGmailSMTP();
+                SendMail sendMail = new SendMail();
+                sendMail.sendMail(buildReport, payload, mailserver, payload.getPusherEmail(), "Hello");
 
-        } catch (Exception e) {
-            System.out.println("Failed to process repo: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Failed to process repo: " + e.getMessage());
+            }
+
+            response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
+            response.getWriter().println("CI job done");
         }
-
-        response.getWriter().println("CI job done");
     }
 
     // used to start the CI server in command line
