@@ -35,17 +35,14 @@ public class DatabaseTest {
 
     /**
      * Sets up a temporary database connection using MariaDB4j.
-     * @param path temporary directory provided by JUnit.
      * @throws ManagedProcessException
      * @throws SQLException
      */
     @BeforeEach
-    public void setUp(@TempDir Path path) throws ManagedProcessException, SQLException {
+    public void setUp() throws ManagedProcessException, SQLException {
         // See https://github.com/vorburger/MariaDB4j
         DBConfigurationBuilder configBuilder = DBConfigurationBuilder.newBuilder();
         configBuilder.setPort(0); // Setting port to 0 to let configBuilder choose a free open port.
-        configBuilder.setDataDir(path.toString());
-        configBuilder.setDeletingTemporaryBaseAndDataDirsOnShutdown(false);
         db = DB.newEmbeddedDB(configBuilder.build());
         db.start();
         db.source("database.sql");
