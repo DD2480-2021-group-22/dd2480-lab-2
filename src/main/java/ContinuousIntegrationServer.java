@@ -45,7 +45,6 @@ public class ContinuousIntegrationServer extends AbstractHandler
         response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
 
         if(target.equals("/builds")){
-            System.out.println("Inne");
             DocumentBuilder db = new DocumentBuilder();
             try {
                 String html = db.writeDoc();
@@ -55,6 +54,11 @@ public class ContinuousIntegrationServer extends AbstractHandler
                 throwables.printStackTrace();
             }
 
+        }
+        else if(target.equals("/commit")){
+            String commitID = request.getParameter("commitID");
+            response.getWriter().println("<div>"+commitID+"</div>");
+            response.flushBuffer();
         }
         else{
             baseRequest.setHandled(true);

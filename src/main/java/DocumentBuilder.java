@@ -78,7 +78,7 @@ public class DocumentBuilder {
 
         for (CommitStructure mockCommit : mockCommits) {
             build.append(String.format(
-                    "<div class=\"BuildContainer\" align=\"center\" id='%s'>" +
+                    "<div class=\"BuildContainer\" align=\"center\" id='%s' onClick='redirect(this.id)'>" +
                             "<div class=\"field\"><p><b>Commit id:</b> %s</p></div>" +
                             "<div class=\"field\"><p><b>Build date:</b> %s</p></div>" +
                             "<div class=\"field\"><p><b>Build status:</b> %s</p></div>" +
@@ -87,20 +87,14 @@ public class DocumentBuilder {
                     mockCommit.isBuildResult()));
         }
         build.append("</div>");
-        /*
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/Resources/builds.html"));
-            bw.write(start);
-            bw.write(heading);
-            bw.write(String.valueOf(build));
-            bw.write(script);
-            bw.write(end);
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
 
-        return start+heading+css+build+script+end;
+        String redirectScript = "<script type=\"text/javascript\">\n" +
+                "function redirect(commitID){\n" +
+                "window.location.href = 'http://localhost:8080/commit?commitID='+commitID;\n" +
+                "}" +
+                "</script>";
+
+        return start+heading+css+build+script+redirectScript+end;
     }
 
     //commit id	build date	test result (pass/fail)	build (pass/fail)	build logs
