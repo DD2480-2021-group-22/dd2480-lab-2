@@ -1,6 +1,8 @@
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DocumentBuilderTest {
 
+    /**
+     * This test checks that the commit hashes are inserted into the html document.
+     * HTML validation is performed by sending a request to https://validator.w3.org/nu/
+     * and the response contains a HTML document representing the web page if a HTML
+     * validation is performed at https://validator.w3.org/ manually. The HTML document
+     * returned should not contain the string "there were error", otherwise the validation fails.
+     */
     @Test
     public void testWriteDoc(){
 
@@ -36,19 +45,16 @@ public class DocumentBuilderTest {
 
             //https://stackoverflow.com/questions/23737300/how-to-validate-html-using-java-getting-issues-with-jsoup-library
 
-            //Whitelist.relaxed() allows for most elements such as div, etc.
-            Whitelist whitelist = Whitelist.relaxed();
-            whitelist.addTags("head", "html", "style", "body");
-            whitelist.addAttributes("div", "class", "align", "id");
-            whitelist.addAttributes("a", "href");
-            whitelist.addAttributes("h1", "align");
-            whitelist.preserveRelativeLinks(true);
-            //whitelist.addEnforcedAttribute("a", "href", "/commit?commitID=%s");
-            //assertTrue(Jsoup.isValid(html, whitelist));
+            Document initialHtmlDoc = Jsoup.parse(html);
+            Document validatedHtmlDoc = Jsoup.connect("https://validator.w3.org/nu/")
+                    .header("content-type", "text/html; charset=UTF-8")
+                    .requestBody(initialHtmlDoc.html())
+                    .post();
 
-
-
-
-        } catch(SQLException e){e.printStackTrace();}
+            assertFalse(validatedHtmlDoc.toString().toLowerCase().contains("there were errors"));
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
