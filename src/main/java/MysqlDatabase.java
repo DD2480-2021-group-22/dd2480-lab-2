@@ -105,7 +105,7 @@ public class MysqlDatabase {
     }
 
     /**
-     * Selects all rows from the table "commit" in the database.
+     * Selects a specific row from the database based on the given commit ID.
      * @param commitID A string to identify the specific commit we want to select
      * @return Returns a CommitStructure object
      */
