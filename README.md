@@ -74,6 +74,13 @@ the server and then configures a webhook with the server address as "Payload URL
 checkbox ticked and for just the `push` event. Then, whenever a push is made, the CI server checks out the last commit and tries to
 build and test the project using the gradle build task, and then sends the results to the pusher's email address.
 
+### Dependencies
+The database service used for this project was MySQL. A SQL file is found within the project that can be run using MySQL to setup the database
+and the table `commit` with all of its column settings. The structure of the table works as following: 
+| commit id | build date | build (pass/fail) | build logs |
+|-- | -- |  -- |   -- | 
+
+
 ### Grading Criteria
 
 #### P1: Compilation
