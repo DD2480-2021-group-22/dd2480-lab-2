@@ -24,10 +24,10 @@ import org.eclipse.jgit.revwalk.DepthWalk;
  */
 public class ContinuousIntegrationServer extends AbstractHandler{
 
-    private MysqlDatabase myDb;
+    private MysqlDatabase database;
 
     public ContinuousIntegrationServer(){
-         myDb = new MysqlDatabase();
+         database = new MysqlDatabase();
     }
     /**
      * Handles incoming requests to the server.
@@ -49,61 +49,56 @@ public class ContinuousIntegrationServer extends AbstractHandler{
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
 
-        List<CommitStructure> c = new ArrayList<>();
+        /*List<CommitStructure> c = new ArrayList<>();
         c.add(new CommitStructure("23424324432424", "11/02-20",
                 "logloglogsfsssfsfsfsfsffs", true));
         c.add(new CommitStructure("79979779977979", "11/02-20",
-                "logloglogsfsssf645646465466sfsffs", true));
-        if(target.equals("/builds")){
-            DocumentBuilder db = new DocumentBuilder();
-            try {
+                "logloglogsfsssf645646465466sfsffs", true)); */
+        try {
+            List<CommitStructure> commits = database.selectAllCommits();
 
-                String html = db.writeDoc(c);
+            if (target.equals("/builds")) {
+                DocumentBuilder db = new DocumentBuilder();
+
+                String html = db.writeDoc(commits);
                 response.getWriter().println(html);
                 response.flushBuffer();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
 
-        }
-        else if(target.equals("/commit")){
-
+            } else if (target.equals("/commit")) {
                 DocumentBuilder db = new DocumentBuilder();
                 String commitID = request.getParameter("commitID");
-                //List<CommitStructure> c = myDb.selectAllCommits();
-                //List<CommitStructure> d  = c.stream().filter(e -> e.getCommitID().equals(commitID)).collect(Collectors.toList());
-                String html = db.writeBuildDetails(c.get(0));
+                CommitStructure commit = database.selectSpecificRow(commitID);
+                String html = db.writeBuildDetails(commit);
                 response.getWriter().println(html);
                 response.flushBuffer();
 
+            } else {
+                baseRequest.setHandled(true);
 
-        }
-        else{
-            baseRequest.setHandled(true);
+                // see https://stackoverflow.com/questions/8100634/get-the-post-request-body-from-httpservletrequest
+                String reqString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
-            // see https://stackoverflow.com/questions/8100634/get-the-post-request-body-from-httpservletrequest
-            String reqString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+                Payload payload = Payload.parse(reqString);
 
-            Payload payload = Payload.parse(reqString);
+                File dir = Files.createTempDirectory("temp").toFile();
+                try {
+                    // Clones repo
+                    File repo = new RepoSnapshot(payload).cloneFiles(dir);
+                    // Executes gradle build
+                    Report buildReport = GradleHandler.build(repo);
+                    // Sends mail
+                    Mailserver mailserver = new Mailserver();
+                    mailserver.useGmailSMTP();
+                    SendMail sendMail = new SendMail();
+                    sendMail.sendMail(buildReport, payload, mailserver, payload.getPusherEmail(), "Hello");
 
-            File dir = Files.createTempDirectory("temp").toFile();
-            try {
-                // Clones repo
-                File repo = new RepoSnapshot(payload).cloneFiles(dir);
-                // Executes gradle build
-                Report buildReport = GradleHandler.build(repo);
-                // Sends mail
-                Mailserver mailserver = new Mailserver();
-                mailserver.useGmailSMTP();
-                SendMail sendMail = new SendMail();
-                sendMail.sendMail(buildReport, payload, mailserver, payload.getPusherEmail(), "Hello");
+                } catch (Exception e) {
+                    System.out.println("Failed to process repo: " + e.getMessage());
+                }
 
-            } catch (Exception e) {
-                System.out.println("Failed to process repo: " + e.getMessage());
+                response.getWriter().println("CI job done");
             }
-
-            response.getWriter().println("CI job done");
-        }
+        } catch(SQLException e){e.printStackTrace();}
 
 
     }
