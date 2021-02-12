@@ -106,7 +106,8 @@ public class MysqlDatabase {
 
     /**
      * Selects all rows from the table "commit" in the database.
-     * @return Returns a list with all of the rows read as CommitStructure objects
+     * @param commitID A string to identify the specific commit we want to select
+     * @return Returns a CommitStructure object
      */
     public CommitStructure selectSpecificRow(String commitID) throws SQLException {
         CommitStructure commit = new CommitStructure();
