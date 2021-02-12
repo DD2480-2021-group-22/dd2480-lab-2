@@ -105,4 +105,21 @@ public class DatabaseTest {
         // Assert
         assertTrue(commits.isEmpty());
     }
+
+    /**
+     * Test where a specific row is selected from the database.
+     * The specific row is selected by giving the primary key of the row
+     * which is the commitID.
+     */
+    @Test
+    public void testSelectSpecificRow() throws SQLException {
+        // Arrange
+        CommitStructure commit = getSampleCommit();
+        String commitID = commit.getCommitID();
+        // Act
+        mysqlDatabase.insertCommitToDatabase(commit);
+        CommitStructure commits = mysqlDatabase.selectSpecificRow(commitID);
+        // Assert
+        assertEquals(commits.getCommitID() , commitID);
+    }
 }

@@ -104,6 +104,31 @@ public class MysqlDatabase {
         return commits;
     }
 
+    /**
+     * Selects all rows from the table "commit" in the database.
+     * @return Returns a list with all of the rows read as CommitStructure objects
+     */
+    public CommitStructure selectSpecificRow(String commitID) throws SQLException {
+        CommitStructure commit = new CommitStructure();
+        if(connection!=null){
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM commit WHERE commitID='" + commitID + "'");
+            ResultSet result = preparedStatement.executeQuery();
+
+            while(result.next()){
+                commit.setCommitID(result.getString(1));
+                commit.setBuildDate(result.getString(2));
+                commit.setBuildResult(result.getBoolean(3));
+                commit.setBuildLogs(result.getString(4));
+            }
+            result.close();
+            preparedStatement.close();
+        }
+        else{
+            System.out.println("Connection is null!");
+        }
+        return commit;
+    }
+
 
 }
 
