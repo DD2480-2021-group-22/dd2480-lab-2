@@ -22,6 +22,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
     testCompile group: 'ch.vorburger.mariaDB4j', name: 'mariaDB4j', version: '2.4.0'
+    implementation 'org.jsoup:jsoup:1.13.1'
 }
 
 test {
