@@ -122,4 +122,23 @@ public class DatabaseTest {
         // Assert
         assertEquals(commits.getCommitID() , commitID);
     }
+
+    /**
+     * Test where a specific row is selected from the database that does not exist within the database.
+     * The specific row is selected by giving the primary key of the row
+     * which is the commitID.
+     * Since git commit id uses SHA1 hash, they will be 40 alphanumeric. By adding a trailing letter
+     * to the commitID we are searching, we are guaranteed to not find that commitID
+     */
+    @Test
+    public void testSelectSpecificRowThatDoesNotExist() throws SQLException {
+        // Arrange
+        CommitStructure commit = getSampleCommit();
+        String commitID = commit.getCommitID() + "A";
+        // Act
+        mysqlDatabase.insertCommitToDatabase(commit);
+        CommitStructure commits = mysqlDatabase.selectSpecificRow(commitID);
+        // Assert
+        assertNull(commits);
+    }
 }
