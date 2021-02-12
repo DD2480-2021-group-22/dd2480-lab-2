@@ -77,9 +77,18 @@ build and test the project using the gradle build task, and then sends the resul
 ### Dependencies
 The database service used for this project was MySQL. A SQL file is found within the project that can be run using MySQL to setup the database
 and the table `commit` with all of its column settings. The structure of the table works as following: 
-| commit id | build date | build (pass/fail) | build logs |
+| commitID | buildDate | buildResult | buildLogs |
 |-- | -- |  -- |   -- | 
 
+The primary key chosen for the table commit was commitID. This is because
+each commit hash is unique. 
+
+The dependencies required are:
+`mysql-connector-java` version 8.0.23: Main dependency for connecting to a MySQL database with java. 
+`ch.vorburger.mariaDB4j` version 2.4.0: Used for testing queries on a database when one is not present. By passing the location to the SQL file found in this project,
+mariaDB4j could be used to set up a local database for testing. 
+
+To access the database, one would use username: `root` and password: `root`.
 
 ### Grading Criteria
 
