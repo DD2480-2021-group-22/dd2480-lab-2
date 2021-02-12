@@ -22,8 +22,13 @@ import org.eclipse.jgit.revwalk.DepthWalk;
  * Tries to build the project using Gradle, this CI sever only supports projects using Gradle.
  * Summarizes the build result and sends an email to the pusher.
  */
-public class ContinuousIntegrationServer extends AbstractHandler
-{
+public class ContinuousIntegrationServer extends AbstractHandler{
+
+    private MysqlDatabase myDb;
+
+    public ContinuousIntegrationServer(){
+         myDb = new MysqlDatabase();
+    }
     /**
      * Handles incoming requests to the server.
      *
@@ -44,10 +49,16 @@ public class ContinuousIntegrationServer extends AbstractHandler
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
 
+        List<CommitStructure> c = new ArrayList<>();
+        c.add(new CommitStructure("23424324432424", "11/02-20",
+                "logloglogsfsssfsfsfsfsffs", true));
+        c.add(new CommitStructure("79979779977979", "11/02-20",
+                "logloglogsfsssf645646465466sfsffs", true));
         if(target.equals("/builds")){
             DocumentBuilder db = new DocumentBuilder();
             try {
-                String html = db.writeDoc();
+
+                String html = db.writeDoc(c);
                 response.getWriter().println(html);
                 response.flushBuffer();
             } catch (SQLException throwables) {
@@ -56,9 +67,16 @@ public class ContinuousIntegrationServer extends AbstractHandler
 
         }
         else if(target.equals("/commit")){
-            String commitID = request.getParameter("commitID");
-            response.getWriter().println("<div>"+commitID+"</div>");
-            response.flushBuffer();
+
+                DocumentBuilder db = new DocumentBuilder();
+                String commitID = request.getParameter("commitID");
+                //List<CommitStructure> c = myDb.selectAllCommits();
+                //List<CommitStructure> d  = c.stream().filter(e -> e.getCommitID().equals(commitID)).collect(Collectors.toList());
+                String html = db.writeBuildDetails(c.get(0));
+                response.getWriter().println(html);
+                response.flushBuffer();
+
+
         }
         else{
             baseRequest.setHandled(true);
