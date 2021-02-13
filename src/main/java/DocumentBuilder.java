@@ -12,10 +12,9 @@ import java.util.List;
 
 public class DocumentBuilder {
 
-    private static String start = "<!DOCTYPE html>\n<html>\n<head>\n" +
-            "<title>Build Report</title>" +
-            "</head>\n<body>\n";
-    private static String css = "<style>" +
+    private static String start = "<!DOCTYPE html>\n<html lang=\"en-us\">\n<head>\n" +
+            "<title>Build Report</title>";
+    private static String css = "<style type=\"text/css\">" +
             "h1 {\n" +
             "    padding-top: 40px;\n" +
             "    padding-bottom: 30px;\n" +
@@ -59,6 +58,7 @@ public class DocumentBuilder {
             "}\n" +
             "\n" +
             "</style>";
+    private static String mid = "</head>\n<body>\n";
     private static String end = "</body>\n</html>";
     public DocumentBuilder() {
     }
@@ -67,7 +67,7 @@ public class DocumentBuilder {
      * Generates an HTML report by using bufferedwriter to write string objects,
      * formatted to look like HTML syntax, to a file.
      */
-    public String writeDoc(List<CommitStructure> commits) throws SQLException {
+    public String writeDoc(List<CommitStructure> commits){
         String heading = "<h1 align=\"center\">Build Report</h1>\n";
 
         StringBuilder build = new StringBuilder("<div id=\"currentDiv\" align=\"center\"><h2> Commits </h2>");
@@ -85,7 +85,7 @@ public class DocumentBuilder {
         }
         build.append("</div>");
 
-        return start+heading+css+build+end;
+        return start+css+mid+heading+build+end;
     }
 
     public String writeBuildDetails(CommitStructure commit){
@@ -105,9 +105,9 @@ public class DocumentBuilder {
                 commit.isBuildResult());
 
         String logData = "<div id=\"currentDiv\" align=\"center\"><h2> Log Data </h2>" +
-                "<div class=\"field\"><p>" + logs + "</p></div>";
+                "<div class=\"field\"><p>" + logs + "</p></div></div>";
 
-        return start+heading+css+details+logData+end;
+        return start+css+mid+heading+details+logData+end;
 
     }
 
