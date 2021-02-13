@@ -49,11 +49,6 @@ public class ContinuousIntegrationServer extends AbstractHandler{
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
 
-        /*List<CommitStructure> c = new ArrayList<>();
-        c.add(new CommitStructure("23424324432424", "11/02-20",
-                "logloglogsfsssfsfsfsfsffs", true));
-        c.add(new CommitStructure("79979779977979", "11/02-20",
-                "logloglogsfsssf645646465466sfsffs", true)); */
         try {
             List<CommitStructure> commits = database.selectAllCommits();
 
