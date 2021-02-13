@@ -94,8 +94,7 @@ public class ContinuousIntegrationServer extends AbstractHandler{
                 response.getWriter().println("CI job done");
             }
         } catch(SQLException e){e.printStackTrace();}
-
-
+     
     }
 
     // used to start the CI server in command line
