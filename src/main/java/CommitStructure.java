@@ -8,6 +8,7 @@ public class CommitStructure {
     private String commitID , buildDate , buildLogs;
     private boolean buildResult;
 
+  
     public CommitStructure() {}
 
     public CommitStructure(String commitID, String buildDate, String buildLogs, boolean buildResult){
