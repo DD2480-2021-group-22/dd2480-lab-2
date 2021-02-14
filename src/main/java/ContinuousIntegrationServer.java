@@ -18,6 +18,11 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
  */
 public class ContinuousIntegrationServer extends AbstractHandler
 {
+    private MysqlDatabase database;
+
+    public ContinuousIntegrationServer() {
+        database = new MysqlDatabase();
+    }
     /**
      * Handles incoming requests to the server.
      *
@@ -64,6 +69,13 @@ public class ContinuousIntegrationServer extends AbstractHandler
                 mailserver.useGmailSMTP();
                 SendMail sendMail = new SendMail();
                 sendMail.sendMail(buildReport, payload, mailserver, payload.getPusherEmail(), "Hello");
+                // Insert results into database
+                CommitStructure newBuild = new CommitStructure(payload.getCommitHash(),
+                                                                buildReport.getFormatedDate(),
+                                                                buildReport.getFormatedLogs(),
+                                                                buildReport.isSuccess());
+
+                database.insertCommitToDatabase(newBuild);
 
             } catch (Exception e) {
                 System.out.println("Failed to process repo: " + e.getMessage());
