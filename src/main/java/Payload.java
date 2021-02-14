@@ -9,6 +9,7 @@ public class Payload {
 
     private String after;
     private Repository repository;
+    private static boolean firstRun = true;
     private static class Repository {
         public String url;
         public String name;
@@ -26,7 +27,10 @@ public class Payload {
      */
     public static Payload parse(String json) {
         Payload p = new Gson().fromJson(json, Payload.class);
-
+        if(firstRun){
+            firstRun = false;
+            return p;
+        }
         // This may be hacky, but we only need a few things and a single endpoint, so it
         // seems excessive to import a whole library for schemas or similar solutions
         if (p.after == null || p.repository == null || p.repository.name == null || p.repository.url == null ||
