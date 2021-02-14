@@ -64,10 +64,15 @@ public class DocumentBuilder {
     }
 
     /**
-     * Generates an HTML report by using bufferedwriter to write string objects,
-     * formatted to look like HTML syntax, to a file.
+     * Returns a string representing an HTML file. This string represents an HTML page where each commit
+     * in the database is displayed together with it's build date and build status.
+     * Each commit is clickable and will take the user to a new page displaying the details, including
+     * the build logs for the commit that was clicked on.
+     *
+     * @param commits   A list of CommitStructures to be displayed in the page
+     * @return          A string representing an HTML page
      */
-    public String writeDoc(List<CommitStructure> commits){
+    public static String createMainPage(List<CommitStructure> commits){
         String heading = "<h1 align=\"center\">Build Report</h1>\n";
 
         StringBuilder build = new StringBuilder("<div id=\"currentDiv\" align=\"center\"><h2> Commits </h2>");
@@ -88,7 +93,14 @@ public class DocumentBuilder {
         return start+css+mid+heading+build+end;
     }
 
-    public String writeBuildDetails(CommitStructure commit){
+    /**
+     * Returns a string representing an HTML file. This string represents an HTML page where the details
+     * of the selected commit is displayed, including it's build logs.
+     *
+     * @param commit    A CommitStructure object
+     * @return          A string representing an HTML page
+     */
+    public static String createBuildDetails(CommitStructure commit){
         String logs = commit.getBuildLogs();
 
         String heading = "<h1 align=\"center\">Build Details</h1>\n";

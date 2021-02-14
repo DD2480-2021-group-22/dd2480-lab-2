@@ -27,7 +27,7 @@ public class ContinuousIntegrationServer extends AbstractHandler{
     private MysqlDatabase database;
 
     public ContinuousIntegrationServer(){
-         database = new MysqlDatabase();
+        database = new MysqlDatabase();
     }
     /**
      * Handles incoming requests to the server.
@@ -53,17 +53,14 @@ public class ContinuousIntegrationServer extends AbstractHandler{
             List<CommitStructure> commits = database.selectAllCommits();
 
             if (target.equals("/builds")) {
-                DocumentBuilder db = new DocumentBuilder();
-
-                String html = db.writeDoc(commits);
+                String html = DocumentBuilder.createMainPage(commits);
                 response.getWriter().println(html);
                 response.flushBuffer();
 
             } else if (target.equals("/commit")) {
-                DocumentBuilder db = new DocumentBuilder();
                 String commitID = request.getParameter("commitID");
                 CommitStructure commit = database.selectSpecificRow(commitID);
-                String html = db.writeBuildDetails(commit);
+                String html = DocumentBuilder.createBuildDetails(commit);
                 response.getWriter().println(html);
                 response.flushBuffer();
 
@@ -94,7 +91,6 @@ public class ContinuousIntegrationServer extends AbstractHandler{
                 response.getWriter().println("CI job done");
             }
         } catch(SQLException e){e.printStackTrace();}
-
 
     }
 
