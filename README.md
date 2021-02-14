@@ -74,6 +74,22 @@ the server and then configures a webhook with the server address as "Payload URL
 checkbox ticked and for just the `push` event. Then, whenever a push is made, the CI server checks out the last commit and tries to
 build and test the project using the gradle build task, and then sends the results to the pusher's email address.
 
+### Database Structure
+The database service used for this project was MySQL. A SQL file is found within the project that can be run using MySQL to setup the database
+and the table `commit` with all of its column settings. The structure of the table works as following: 
+| commitID VARCHAR(50) | buildDate VARCHAR(30) | buildResult BIT(1) | buildLogs MEDIUMTEXT |
+|-- | -- |  -- |   -- | 
+
+The primary key chosen for the table commit was commitID. This is because each commit hash is unique. 
+
+
+### Dependencies
+The code dependencies required are:
+`mysql-connector-java` version 8.0.23: Main dependency for connecting to a MySQL database with java. 
+`ch.vorburger.mariaDB4j` version 2.4.0: Used for testing queries on a database when one is not present. By passing the location to the SQL file found in this project,
+mariaDB4j could be used to set up a local database for testing. 
+In order to run this outside of the test environment, one would have to have MySQL (8.0.23) installed on their device, and run the database.sql file found in the root of this project.
+
 ### Grading Criteria
 
 #### P1: Compilation

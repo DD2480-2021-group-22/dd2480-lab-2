@@ -22,11 +22,12 @@ import org.eclipse.jgit.revwalk.DepthWalk;
  * Tries to build the project using Gradle, this CI sever only supports projects using Gradle.
  * Summarizes the build result and sends an email to the pusher.
  */
-public class ContinuousIntegrationServer extends AbstractHandler{
 
+public class ContinuousIntegrationServer extends AbstractHandler {
     private MysqlDatabase database;
 
-    public ContinuousIntegrationServer(){
+    public ContinuousIntegrationServer() {
+
         database = new MysqlDatabase();
     }
     /**
@@ -47,6 +48,7 @@ public class ContinuousIntegrationServer extends AbstractHandler{
             HttpServletResponse response)
             throws IOException, ServletException {
         response.setContentType("text/html;charset=utf-8");
+
         response.setStatus(javax.servlet.http.HttpServletResponse.SC_OK);
 
         try {
@@ -83,12 +85,20 @@ public class ContinuousIntegrationServer extends AbstractHandler{
                     mailserver.useGmailSMTP();
                     SendMail sendMail = new SendMail();
                     sendMail.sendMail(buildReport, payload, mailserver, payload.getPusherEmail(), "Hello");
+                    // Insert results into database
+                    CommitStructure newBuild = new CommitStructure(payload.getCommitHash(),
+                                                                buildReport.getFormatedDate(),
+                                                                buildReport.getFormatedLogs(),
+                                                                buildReport.isSuccess());
+
+                    database.insertCommitToDatabase(newBuild);
 
                 } catch (Exception e) {
                     System.out.println("Failed to process repo: " + e.getMessage());
                 }
 
                 response.getWriter().println("CI job done");
+
             }
         } catch(SQLException e){e.printStackTrace();}
 
