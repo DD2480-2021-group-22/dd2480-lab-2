@@ -41,7 +41,12 @@ public class MysqlDatabase {
 
             //Try connecting to database 'test' with username=root and password=root.
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?autoReconnect=true&useSSL=false","root","root");
+                // allowPublicKeyRetrieval and useSSL are false for ease of use and to avoid potential
+                // exceptions like the one discussed at:
+                // https://stackoverflow.com/questions/50379839/connection-java-mysql-public-key-retrieval-is-not-allowed
+                String dbUrl = "jdbc:mysql://localhost:3306/test?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false";
+
+                connection = DriverManager.getConnection(dbUrl,"root","root");
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
