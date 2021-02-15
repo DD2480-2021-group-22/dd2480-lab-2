@@ -112,6 +112,7 @@ public class ContinuousIntegrationServer extends AbstractHandler {
                 }
 
                 response.getWriter().println("CI job done");
+                response.flushBuffer();
                 System.out.println("CI job done");
             }
         } catch(SQLException e){e.printStackTrace();}
