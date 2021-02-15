@@ -85,12 +85,25 @@ and the table `commit` with all of its column settings. The structure of the tab
 The primary key chosen for the table commit was commitID. This is because each commit hash is unique. 
 
 
-### Dependencies
+### Database Dependencies
 The code dependencies required are:
 `mysql-connector-java` version 8.0.23: Main dependency for connecting to a MySQL database with java. 
 `ch.vorburger.mariaDB4j` version 2.4.0: Used for testing queries on a database when one is not present. By passing the location to the SQL file found in this project,
 mariaDB4j could be used to set up a local database for testing. 
 In order to run this outside of the test environment, one would have to have MySQL (8.0.23) installed on their device, and run the database.sql file found in the root of this project.
+The MySQL server must be set up with the username `root` and password `root`.
+
+#### Linux
+MySQL server can be installed with the following command:
+```
+sudo apt install mysql-server
+```
+
+#### Windows
+The instructions for installing MySQL is described more detailed [here](https://dev.mysql.com/doc/refman/5.7/en/windows-installation.html#windows-installation-simple). 
+Note that all the MySQL is not required to deploy a MySQL database, only MySQL server.
+
+
 
 ### Grading Criteria
 
