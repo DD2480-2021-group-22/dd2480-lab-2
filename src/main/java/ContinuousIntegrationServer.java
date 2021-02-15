@@ -62,9 +62,15 @@ public class ContinuousIntegrationServer extends AbstractHandler {
             } else if (target.equals("/commit")) {
                 String commitID = request.getParameter("commitID");
                 CommitStructure commit = database.selectSpecificRow(commitID);
-                String html = DocumentBuilder.createBuildDetails(commit);
-                response.getWriter().println(html);
+                if(commit==null){
+                    response.getWriter().println("404: The selected commit ID is non existant");
+                }
+                else{
+                    String html = DocumentBuilder.createBuildDetails(commit);
+                    response.getWriter().println(html);
+                }
                 response.flushBuffer();
+
 
             } else {
                 baseRequest.setHandled(true);
