@@ -46,6 +46,7 @@ For documentation on the different methods and classes used, see code comments a
      │       └── Report.java
      │       └── RepoSnapshot.java
      │       └── SendMail.java
+     |       └── DocumentBuilder.java
      │   
      └── test
          └── java
@@ -55,6 +56,7 @@ For documentation on the different methods and classes used, see code comments a
          │   └── IntegrationTest.java
          │   └── RepoSnapshotTest.java
          │   └── SendMailTest.java
+         │   └── DocumentBuilderTest.java
          └── resources
              └── GradleTestProjects/..
              └── database.sql
