@@ -136,9 +136,8 @@ Top-level testing is done through a integration test, where the notification of 
 - Helped structuring the flow of `ContinuousIntegrationServer.java` by serving correct data based on the requests.
 
 **Keivan Matinzadeh**
-- Implementation of the build history report according to the format given in the assignment description:
-  - Creating a new class and method to generate an HTML document populated with information from the database.
-  - Using Javascript to make the report dynamic, and using CSS to style the report.
+- Implementation of `DocumentBuilder` and corresponding tests.
+- Add code to `ContinuousIntegrationServer.java` for using the methods of `DocumentBuilder`.
 
 **Kitty Thai**
 - Implementation of `GradleHandler` and corresponding tests.
