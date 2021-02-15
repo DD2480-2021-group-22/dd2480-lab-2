@@ -83,28 +83,36 @@ public class ContinuousIntegrationServer extends AbstractHandler {
                 File dir = Files.createTempDirectory("temp").toFile();
                 try {
                     // Clones repo
+                    System.out.println("Cloning repo...");
                     File repo = new RepoSnapshot(payload).cloneFiles(dir);
+                    System.out.println("Repo cloned");
                     // Executes gradle build
+                    System.out.println("Start building...");
                     Report buildReport = GradleHandler.build(repo);
+                    System.out.println("Build finished");
                     // Sends mail
+                    System.out.println("Sending results...");
                     Mailserver mailserver = new Mailserver();
                     mailserver.useGmailSMTP();
                     SendMail sendMail = new SendMail();
                     sendMail.sendMail(buildReport, payload, mailserver, payload.getPusherEmail(), "Hello");
+                    System.out.println("Email sent");
                     // Insert results into database
+                    System.out.println("Insert build results into database..");
                     CommitStructure newBuild = new CommitStructure(payload.getCommitHash(),
                                                                 buildReport.getFormatedDate(),
                                                                 buildReport.getFormatedLogs(),
                                                                 buildReport.isSuccess());
 
                     database.insertCommitToDatabase(newBuild);
+                    System.out.println("Database updated!");
 
                 } catch (Exception e) {
                     System.out.println("Failed to process repo: " + e.getMessage());
                 }
 
                 response.getWriter().println("CI job done");
-
+                System.out.println("CI job done");
             }
         } catch(SQLException e){e.printStackTrace();}
 
