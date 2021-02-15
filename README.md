@@ -130,9 +130,10 @@ Top-level testing is done through a integration test, where the notification of 
 - Helped with integration of cloning, building and email tasks and writing the integration test ensuring all of these work together.
 
 **Kani Yildirim**
-- Implementation of `MysqlDatabase` and the corresponding tests
-- Implementation of `CommitStructure` class for simplifying database insert/select statements
-- Implementation of `database` sql file for setting up the database and the commit table
+- Implementation of `MysqlDatabase` and the corresponding tests.
+- Implementation of `CommitStructure` class for simplifying database insert/select statements.
+- Implementation of `database` sql file for setting up the database and the commit table.
+- Helped structuring the flow of `ContinuousIntegrationServer.java` by serving correct data based on the requests.
 
 **Keivan Matinzadeh**
 - Implementation of the build history report according to the format given in the assignment description:
