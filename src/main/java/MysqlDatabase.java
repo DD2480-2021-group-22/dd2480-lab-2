@@ -41,7 +41,12 @@ public class MysqlDatabase {
 
             //Try connecting to database 'test' with username=root and password=root.
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?autoReconnect=true&useSSL=false","root","root");
+                // allowPublicKeyRetrieval is true and useSSL is false for ease of use and to avoid potential
+                // exceptions like the one discussed at:
+                // https://stackoverflow.com/questions/50379839/connection-java-mysql-public-key-retrieval-is-not-allowed
+                String dbUrl = "jdbc:mysql://localhost:3306/test?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false";
+
+                connection = DriverManager.getConnection(dbUrl,"root","root");
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
@@ -102,6 +107,40 @@ public class MysqlDatabase {
             System.out.println("Connection is null!");
         }
         return commits;
+    }
+
+    /**
+     * Selects a specific row from the database based on the given commit ID.
+     * @param commitID A string to identify the specific commit we want to select
+     * @return Returns a CommitStructure object
+     */
+    public CommitStructure selectSpecificRow(String commitID) throws SQLException {
+        CommitStructure commit = new CommitStructure();
+        if(connection!=null){
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM commit WHERE commitID=?");
+            preparedStatement.setString(1, commitID);
+
+            ResultSet result = preparedStatement.executeQuery();
+            boolean rowFound = false;
+            while(result.next()){
+                rowFound = true;
+                commit.setCommitID(result.getString(1));
+                commit.setBuildDate(result.getString(2));
+                commit.setBuildResult(result.getBoolean(3));
+                commit.setBuildLogs(result.getString(4));
+            }
+
+            result.close();
+            preparedStatement.close();
+            if(rowFound)
+                return commit;
+            else
+                return null;
+        }
+        else{
+            System.out.println("Connection is null!");
+        }
+        return null;
     }
 
 

@@ -13,7 +13,7 @@ file [src/main/java/ContinuousIntegrationServer.java](src/main/java/ContinuousIn
 Gradle can be used to build and test the project. To do this, run `gradle build` in the root of the repo.
 
 ### Documentation
-For documentation on the different methods and classes used, see code comments and especially javadoc comments. Javadoc was generated from commit 6298f23cc798500e18d5d0eae60edca5b81e7f97 (or possibly 9350876b9d7b90df83991aa63c5598099e7af14d) at 2020-02-10 and is hosted [here](https://dd2480-2021-group-22.github.io/dd2480-lab-2/) via GitHub pages.
+For documentation on the different methods and classes used, see code comments and especially javadoc comments. Javadoc was generated from commit 026e5012bb1018e3c0bd855943eb533400fe0a8a at 2020-02-15 and is hosted [here](https://dd2480-2021-group-22.github.io/dd2480-lab-2/) via GitHub pages.
 
 ### Commit message conventions
 1. Each commit should reference an issue in the first line. To do this, use the "#" sign followed by the issue number. For example, a commit message might start with the line "fix #1".
@@ -46,6 +46,7 @@ For documentation on the different methods and classes used, see code comments a
      │       └── Report.java
      │       └── RepoSnapshot.java
      │       └── SendMail.java
+     |       └── DocumentBuilder.java
      │   
      └── test
          └── java
@@ -55,6 +56,7 @@ For documentation on the different methods and classes used, see code comments a
          │   └── IntegrationTest.java
          │   └── RepoSnapshotTest.java
          │   └── SendMailTest.java
+         │   └── DocumentBuilderTest.java
          └── resources
              └── GradleTestProjects/..
              └── database.sql
@@ -73,6 +75,35 @@ for the notification emails to work, the pusher must have a public GitHub email 
 the server and then configures a webhook with the server address as "Payload URL", "application/json" as "Content type", the "Active"
 checkbox ticked and for just the `push` event. Then, whenever a push is made, the CI server checks out the last commit and tries to
 build and test the project using the gradle build task, and then sends the results to the pusher's email address.
+
+### Database Structure
+The database service used for this project was MySQL. A SQL file is found within the project that can be run using MySQL to setup the database
+and the table `commit` with all of its column settings. The structure of the table works as following: 
+| commitID VARCHAR(50) | buildDate VARCHAR(30) | buildResult BIT(1) | buildLogs MEDIUMTEXT |
+|-- | -- |  -- |   -- | 
+
+The primary key chosen for the table commit was commitID. This is because each commit hash is unique. 
+
+
+### Database Dependencies
+The code dependencies required are:
+`mysql-connector-java` version 8.0.23: Main dependency for connecting to a MySQL database with java. 
+`ch.vorburger.mariaDB4j` version 2.4.0: Used for testing queries on a database when one is not present. By passing the location to the SQL file found in this project,
+mariaDB4j could be used to set up a local database for testing. 
+In order to run this outside of the test environment, one would have to have MySQL (8.0.23) installed on their device, and run the database.sql file found in the root of this project.
+The MySQL server must be set up with the username `root` and password `root`.
+
+#### Linux
+MySQL server can be installed with the following command:
+```
+sudo apt install mysql-server
+```
+
+#### Windows
+The instructions for installing MySQL is described more detailed [here](https://dev.mysql.com/doc/refman/5.7/en/windows-installation.html#windows-installation-simple). 
+Note that all the MySQL is not required to deploy a MySQL database, only MySQL server.
+
+
 
 ### Grading Criteria
 
@@ -114,14 +145,14 @@ Top-level testing is done through a integration test, where the notification of 
 - Helped with integration of cloning, building and email tasks and writing the integration test ensuring all of these work together.
 
 **Kani Yildirim**
-- Implementation of `MysqlDatabase` and the corresponding tests
-- Implementation of `CommitStructure` class for simplifying database insert/select statements
-- Implementation of `database` sql file for setting up the database and the commit table
+- Implementation of `MysqlDatabase` and the corresponding tests.
+- Implementation of `CommitStructure` class for simplifying database insert/select statements.
+- Implementation of `database` sql file for setting up the database and the commit table.
+- Helped structuring the flow of `ContinuousIntegrationServer.java` by serving correct data based on the requests.
 
 **Keivan Matinzadeh**
-- Implementation of the build history report according to the format given in the assignment description:
-  - Creating a new class and method to generate an HTML document populated with information from the database.
-  - Using Javascript to make the report dynamic, and using CSS to style the report.
+- Implementation of `DocumentBuilder` and corresponding tests.
+- Add code to `ContinuousIntegrationServer.java` for using the methods of `DocumentBuilder`.
 
 **Kitty Thai**
 - Implementation of `GradleHandler` and corresponding tests.

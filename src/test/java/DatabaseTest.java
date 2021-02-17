@@ -35,17 +35,14 @@ public class DatabaseTest {
 
     /**
      * Sets up a temporary database connection using MariaDB4j.
-     * @param path temporary directory provided by JUnit.
      * @throws ManagedProcessException
      * @throws SQLException
      */
     @BeforeEach
-    public void setUp(@TempDir Path path) throws ManagedProcessException, SQLException {
+    public void setUp() throws ManagedProcessException, SQLException {
         // See https://github.com/vorburger/MariaDB4j
         DBConfigurationBuilder configBuilder = DBConfigurationBuilder.newBuilder();
         configBuilder.setPort(0); // Setting port to 0 to let configBuilder choose a free open port.
-        configBuilder.setDataDir(path.toString());
-        configBuilder.setDeletingTemporaryBaseAndDataDirsOnShutdown(false);
         db = DB.newEmbeddedDB(configBuilder.build());
         db.start();
         db.source("database.sql");
@@ -107,5 +104,41 @@ public class DatabaseTest {
         List<CommitStructure> commits = mysqlDatabase.selectAllCommits();
         // Assert
         assertTrue(commits.isEmpty());
+    }
+
+    /**
+     * Test where a specific row is selected from the database.
+     * The specific row is selected by giving the primary key of the row
+     * which is the commitID.
+     */
+    @Test
+    public void testSelectSpecificRow() throws SQLException {
+        // Arrange
+        CommitStructure commit = getSampleCommit();
+        String commitID = commit.getCommitID();
+        // Act
+        mysqlDatabase.insertCommitToDatabase(commit);
+        CommitStructure commits = mysqlDatabase.selectSpecificRow(commitID);
+        // Assert
+        assertEquals(commits.getCommitID() , commitID);
+    }
+
+    /**
+     * Test where a specific row is selected from the database that does not exist within the database.
+     * The specific row is selected by giving the primary key of the row
+     * which is the commitID.
+     * Since git commit id uses SHA1 hash, they will be 40 alphanumeric. By adding a trailing letter
+     * to the commitID we are searching, we are guaranteed to not find that commitID
+     */
+    @Test
+    public void testSelectSpecificRowThatDoesNotExist() throws SQLException {
+        // Arrange
+        CommitStructure commit = getSampleCommit();
+        String commitID = commit.getCommitID() + "A";
+        // Act
+        mysqlDatabase.insertCommitToDatabase(commit);
+        CommitStructure commits = mysqlDatabase.selectSpecificRow(commitID);
+        // Assert
+        assertNull(commits);
     }
 }

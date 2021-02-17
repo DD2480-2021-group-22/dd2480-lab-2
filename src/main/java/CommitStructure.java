@@ -8,6 +8,16 @@ public class CommitStructure {
     private String commitID , buildDate , buildLogs;
     private boolean buildResult;
 
+  
+    public CommitStructure() {}
+
+    public CommitStructure(String commitID, String buildDate, String buildLogs, boolean buildResult){
+        this.commitID = commitID;
+        this.buildDate = buildDate;
+        this.buildLogs = buildLogs;
+        this.buildResult = buildResult;
+    }
+
     public String getCommitID() {
         return commitID;
     }
