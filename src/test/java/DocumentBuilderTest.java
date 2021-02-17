@@ -42,7 +42,7 @@ public class DocumentBuilderTest {
         InputStream stream = new ByteArrayInputStream(html.getBytes());
         tidy.parse(stream, new PrintStream(new OutputStream() {
             public void write(int b) {}})); //parse the html string
-        assertFalse(tidy.getParseErrors() == 0); //the number of errors that occurred in the most recent parse operation.
+        assertTrue(tidy.getParseErrors() == 0); //the number of errors that occurred in the most recent parse operation.
         assertTrue(tidy.getParseWarnings() == 0); //the number of warnings that occurred in the most recent parse operation.
     }
 
